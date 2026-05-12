@@ -2,6 +2,7 @@ from django.db import models
 from django.contrib.auth.models import AbstractUser
 from django.core.validators import MaxValueValidator
 # Create your models here.
+
 #options for models
 class TipoRol(models.TextChoices):
     laboratorista = 'LAB', 'laboratorista'
@@ -12,6 +13,13 @@ class TipoTituloProfesional(models.TextChoices):
     licenciado = 'LIC', 'Licenciatura en Laboratorio Clinico'
     tecnico = 'TEC', 'Tecnico en Laboratorio Clinico'
 #clases
+class Sucursal(models.Model):
+    nombre = models.CharField(max_length=50, null=False, blank=False)
+    ubicacion = models.CharField(max_length=50, null=False, blank=False)
+
+    def __str__(self):
+        return self.nombre
+
 class Rol(models.Model):
     nombre = models.CharField(max_length=5, choices=TipoRol.choices)
 
@@ -22,6 +30,8 @@ class Rol(models.Model):
 #null a rol por creacion de superusuarios, validar en creacion 
 class Usuario(AbstractUser):
     rol = models.ForeignKey(Rol, on_delete=models.PROTECT, null=True, blank=True)
+    sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE, related_name='empleados', default=1)
+ 
 
 #ESTE MOdelo soportará hasta el JVPLC D3 8 digitos
 class RegistroAnalistaClinico(models.Model):
@@ -35,4 +45,4 @@ class RegistroAnalistaClinico(models.Model):
 
     def __str__(self):
         return f"{self.usuario.username}-{self.acreditacionJVPLC}"
-
+    
