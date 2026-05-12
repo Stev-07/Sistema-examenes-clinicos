@@ -18,6 +18,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #MODELO PERSONALIZADO DE AUTENTICACION
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
+LOGIN_URL = 'login'
+ # Redirige al dashboard del laboratorista por defecto después del login
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
