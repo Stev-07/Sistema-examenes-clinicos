@@ -47,14 +47,13 @@ def login_view(request):
 
 @login_required
 def laboratorista_dashboard(request):
-    return HttpResponse("Bienvenido al dashboard del laboratorista")
+    print("el usuario se ejecuta correctamente")
+    return render(request, './prueba.html')
 
 def recepcionista_dashboard(request):
-    return HttpResponse("Bienvenido al dashboard del recepcionista")        
+    return render(request, './prueba.html')
 
-def almacenista_dashboard(request): 
-    return HttpResponse("Bienvenido al dashboard del almacenista")    
-
-
+def almacenista_dashboard(request):
+    return render(request, './prueba.html')
 
 # Create your views here.

@@ -1,0 +1,32 @@
+{% load static %}
+{% load auth_extras %}
+
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{% block title %}{% endblock %}</title>
+    <link rel="stylesheet" href="{% static 'css/navbar_all.css' %}">
+    <script src="https://kit.fontawesome.com/23df54631b.js" crossorigin="anonymous"></script>
+</head>
+<body>
+    <div class="main-wrapper">
+        {#Esto asigna el navbar correspondiente a cada grupo que se loguee#}
+        {% if user.is_authenticated %}
+            {% if request.user|has_group:"Laboratoristas" %}
+                {% include 'includes/_navbar_laboratorio.html' %}
+            {% elif request.user|has_group:"Almacenistas" %}
+                {% include 'includes/_navbar_inventario.html' %}
+            {% else %}
+                {% include 'includes/_navbar_recepcion.html' %}
+            {% endif %}
+        {% endif %}
+
+        <main class="content-area">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+
+    {#importaion del script que maneja el toggle del sidebar#}
+    <script src="{% static 'js/toggle_navbar.js' %}"></script>
+</body>
+</html>

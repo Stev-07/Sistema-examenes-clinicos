@@ -1,0 +1,22 @@
+<aside class="sidebar" id="sidebar">
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+    
+    <nav>
+        <ul>
+            <li>               
+                <a href="#" class="nav-link">
+                    <span class="icon">🏠</span>{#- CAMBIAR LUEGO POR ICONOS DE FONTAWESOME#}
+                    <span class="text">Inicio</span>
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="{% url 'inventario-dashboard' %}" class="nav-link">                  
+                    <span class="icon">📦</span>{#- CAMBIAR LUEGO POR ICONOS DE FONTAWESOME#}
+                    <span class="text">recepcion</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>

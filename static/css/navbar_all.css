@@ -1,0 +1,70 @@
+:root {
+  --sidebar-width: 250px;
+  --sidebar-collapsed-width: 60px;
+}
+
+.sidebar {
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: #2c3e50;
+  color: white;
+  transition: all 0.3s ease;
+  overflow: hidden; /* Evita que el texto se salga al encoger */
+  display: flex;
+  flex-direction: column;
+  flex-shrink: 0; /* Evita que el sidebar se aplaste si el contenido es mucho */
+  position: sticky; /* Opcional: para que se quede fijo mientras haces scroll */
+  top: 0;
+}
+
+/* Estado cuando está cerrado */
+.sidebar.collapsed {
+  width: var(--sidebar-collapsed-width);
+}
+
+.sidebar-nav ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.nav-link {
+  display: flex;
+  align-items: center;
+  padding: 15px 20px;
+  color: white;
+  text-decoration: none;
+  transition: background 0.2s;
+  white-space: nowrap; /* Mantiene el texto en una sola línea */
+}
+
+.nav-link:hover {
+  background: #34495e;
+}
+
+.nav-link .icon {
+  min-width: 25px;
+  margin-right: 20px;
+  font-size: 1.2rem;
+}
+
+/* Ocultar texto suavemente */
+.sidebar.collapsed .text {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Este es el contenedor que abraza al sidebar y al contenido */
+.main-wrapper {
+    display: flex;
+    width: 100%;
+    min-height: 100vh;
+}
+
+/* El área de contenido debe crecer para llenar el espacio */
+.content-area {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #f4f7f6; /* Un gris claro para diferenciarlo del sidebar */
+    transition: all 0.3s ease; /* Para que se mueva suave cuando el sidebar se encoge */
+}

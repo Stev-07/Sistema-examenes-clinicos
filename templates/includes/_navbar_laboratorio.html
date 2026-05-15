@@ -1,0 +1,22 @@
+<aside class="sidebar" id="sidebar">
+    <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
+    
+    <nav class="sidebar-nav">
+        <ul>
+            <li>               
+                <a href="#" class="nav-link">
+                    <i class="fa-solid fa-house"></i>
+                    <span class="text">Inicio</span>
+                </a>
+            </li>
+        </ul>
+        <ul>
+            <li>
+                <a href="{% url 'lab-dashboard' %}" class="nav-link">
+                    <i class="fa-solid fa-box-archive"></i>
+                    <span class="text">laboratorio</span>
+                </a>
+            </li>
+        </ul>
+    </nav>
+</aside>
