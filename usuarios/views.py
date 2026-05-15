@@ -25,11 +25,11 @@ def login_view(request):
                 username = username,
                 password = password
             )
-            #print user para debug
-            print("Usuario autenticado:", user)  # Debug: Verificar usuario autenticado
-            print("Grupos del usuario:", user.groups.all())  # Debug: Verificar grupos del usuario
 
             if user is not None:
+                #print user para debug
+                print("Usuario autenticado:", user)  # Debug: Verificar usuario autenticado
+                print("Grupos del usuario:", user.groups.all())  # Debug: Verificar grupos del usuario
                 login(request, user)
                 #redireccionar según rol
                 if user.groups.filter(name='Laboratoristas').exists():
