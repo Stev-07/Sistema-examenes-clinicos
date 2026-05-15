@@ -56,4 +56,7 @@ def recepcionista_dashboard(request):
 def almacenista_dashboard(request):
     return render(request, './prueba.html')
 
+def crear_usuario(request):
+    return HttpResponse("Crear usuario - Funcionalidad en desarrollo")
+
 # Create your views here.
