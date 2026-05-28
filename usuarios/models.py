@@ -8,6 +8,7 @@ class TipoRol(models.TextChoices):
     laboratorista = 'LAB', 'laboratorista'
     recepcionista = 'REC', 'recepcionista'
     bodeguero = 'INV', 'almacenista'
+    cliente = 'CLI', 'cliente'
 
 class TipoTituloProfesional(models.TextChoices):
     licenciado = 'LIC', 'Licenciatura en Laboratorio Clinico'
@@ -28,9 +29,15 @@ class Rol(models.Model):
 
 #esta clase es empleado
 #null a rol por creacion de superusuarios, validar en creacion 
+#SI NO TIENE SUCURSAL ES PARA USUARIOS CLIENTES O ADMINS
 class Usuario(AbstractUser):
     rol = models.ForeignKey(Rol, on_delete=models.PROTECT, null=True, blank=True)
-    sucursal = models.ForeignKey(Sucursal, on_delete=models.CASCADE, related_name='empleados', default=1)
+    sucursal = models.ForeignKey(
+        Sucursal,
+        on_delete=models.CASCADE,
+        related_name='empleados',
+        null=True,
+        blank=True)
  
 
 #ESTE MOdelo soportará hasta el JVPLC D3 8 digitos

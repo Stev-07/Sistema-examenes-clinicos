@@ -6,7 +6,9 @@
 <head>
     <title>{% block title %}{% endblock %}</title>
     <link rel="stylesheet" href="{% static 'css/navbar_all.css' %}">
+    <link rel="stylesheet" href="{% static 'css/messages_globales.css' %}">
     <script src="https://kit.fontawesome.com/23df54631b.js" crossorigin="anonymous"></script>
+    <script src="{% static 'js/messages_globales.js' %}"></script>
 </head>
 <body>
     <div class="main-wrapper">
@@ -28,5 +30,18 @@
 
     {#importaion del script que maneja el toggle del sidebar#}
     <script src="{% static 'js/toggle_navbar.js' %}"></script>
+
+{#COntenedor de notificaciones globales.#}
+{#borrarLuego: la forma de usar esto es con mensajes de Django, lean sobre eso#}
+    <div id="contenedor-notificaciones" class="contenedor-notificaciones">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alerta-global {{ message.tags }}" role="alert">
+                <span class="alerta-mensaje">{{ message }}</span>
+                <button class="alerta-cerrar" onclick="this.parentElement.remove()">&times;</button>
+            </div>
+        {% endfor %}
+    {% endif %}
+</div>
 </body>
 </html>

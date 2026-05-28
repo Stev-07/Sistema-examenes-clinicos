@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Crear Expediente{% endblock %}
+
+{% block content %}
+<div class="contenedor-crear-expediente">      
+        <h2>Crear Expediente</h2>
+        <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            {{form_user.as_p}}
+            <button type="submit">Crear Expediente</button>
+            <a href="{% url 'usuarios:recepcion-dashboard' %}">
+                <button type="button">Cancelar</button>
+            </a>
+        </form>
+
+</div>
+{% endblock %}

@@ -42,8 +42,7 @@ class ContadorAnual(models.Model):
         return f"año: {self.anio}-ultimo: {self.ultimo_valor}"
 
 class Cliente(models.Model):
-    nombre = models.CharField(max_length=100)
-    apellido = models.CharField(max_length=100)
+    usuario = models.OneToOneField('usuarios.Usuario', on_delete=models.CASCADE, related_name='cliente_perfil')
     n_dui = models.CharField(max_length=9, unique=True, validators=[solo_numeros])
     fecha_nacimiento = models.DateField(validators=[validar_anio_nacimiento])
     correo_electronico = models.EmailField(unique=True)
