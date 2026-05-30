@@ -18,9 +18,12 @@
                 {% include 'includes/_navbar_laboratorio.html' %}
             {% elif request.user|has_group:"Almacenistas" %}
                 {% include 'includes/_navbar_inventario.html' %}
-            {% else %}
+            {% elif request.user|has_group:"Pacientes" %}
+                {% include 'includes/_navbar_paciente.html' %}
+            {% elif request.user|has_group:"Recepcionistas" %}
                 {% include 'includes/_navbar_recepcion.html' %}
             {% endif %}
+
         {% endif %}
 
         <main class="content-area">

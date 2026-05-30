@@ -18,8 +18,10 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 #MODELO PERSONALIZADO DE AUTENTICACION
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
-LOGIN_URL = 'login'
+LOGIN_URL = 'usuarios:login'
  # Redirige al dashboard del laboratorista por defecto después del login
+#Cuando el usuario cierra sesión lo redirige al login
+LOGOUT_REDIRECT_URL = 'usuarios:login'
 
 
 # Quick-start development settings - unsuitable for production
@@ -114,7 +116,7 @@ AUTH_PASSWORD_VALIDATORS = [
 # Internationalization
 # https://docs.djangoproject.com/en/5.2/topics/i18n/
 
-LANGUAGE_CODE = 'en-us'
+LANGUAGE_CODE = 'es-mx'
 
 TIME_ZONE = 'UTC'
 
