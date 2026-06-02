@@ -64,7 +64,7 @@ class Expediente(models.Model):
     fecha_creacion = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return f"Expediente de {self.cliente.nombre} {self.cliente.apellido}"
+        return f"Expediente de {self.cliente.usuario.first_name} {self.cliente.usuario.last_name}"
     
     def save(self, *args, **kwargs):
         # guardado atómico o pasa todo o nada

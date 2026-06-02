@@ -62,6 +62,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'usuarios',
     'clientes',
+    'examenes',
+
+
 ]
 
 MIDDLEWARE = [
@@ -98,7 +101,7 @@ WSGI_APPLICATION = 'sistema_clinico.wsgi.application'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#databases
 
 DATABASES = {
-    'default': {
+        'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sistema_clinico',
         'USER': 'postgres',

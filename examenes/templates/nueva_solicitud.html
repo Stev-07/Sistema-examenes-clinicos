@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Nueva Orden de Examen{% endblock %}
+
+{% block content %}
+
+{% if errores %}
+    <div class="alerta-error">
+        <p>Por favor corregí los siguientes errores:</p>
+        {% if doctor_form %}
+            {{ doctor_form.nombreD.errors }}
+            {{ doctor_form.jvpm.errors }}
+        {% endif %}
+    </div>
+{% endif %}
+
+<link rel="stylesheet" href="{% static 'examenes/nuevaSolicitud.css' %}">
+
+<style>
+    .hidden {
+        display: none !important;
+    }
+</style>
+
+<div class="solicitud-container">
+
+    <form id="form-solicitud" method="POST">
+        {% csrf_token %}
+
+        <input type="hidden" name="expediente_id" id="expediente-id-hidden">
+        <input type="hidden" name="correlativo" id="correlativo-hidden" value="0">
+
+        <!-- Datos del cliente -->
+        <div class="paciente-section">
+
+            <div class="field-group">
+                <label>ID del paciente (DUI)</label>
+                <input type="text" id="dui-input" placeholder="000000000">
+                <button type="button" id="btn-aceptar">Aceptar</button>
+            </div>
+
+            <div class="field-group">
+                <label>Nombre</label>
+                <input type="text" id="nombre-paciente" readonly>
+            </div>
+
+            <div class="field-group">
+                <label>Fecha</label>
+                <input type="text" id="fecha-hoy" readonly>
+            </div>
+
+        </div>
+
+        <!-- Datos del doctor -->
+        <div class="doctor-section">
+
+            <div class="field-group">   
+                <label>{{ doctor_form.nombreD.label }}</label>
+                {{ doctor_form.nombreD }}
+            </div>
+
+            <div class="field-group">
+                <label>{{ doctor_form.jvpm.label }}</label>
+                {{ doctor_form.jvpm }}
+            </div>
+
+        </div>
+
+        <!-- Buscador de exámenes -->
+        <div class="examen-search-section">
+
+            <label>Examen</label>
+
+            <div class="search-wrapper">
+                <input type="text" id="search-examen" placeholder="Buscar examen">
+                <div id="dropdown-examenes" class="dropdown hidden"></div>
+            </div>
+
+        </div>
+
+        <!-- Inputs hidden para exámenes -->
+        <div id="inputs-examenes-hidden"></div>
+
+        <!-- Tabla -->
+        <table id="tabla-examenes">
+            <thead>
+                <tr>
+                    <th>DUI</th>
+                    <th>Nombre del paciente</th>
+                    <th>Estudio a realizar</th>
+                    <th>Precio</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody id="tbody-examenes"></tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="3" style="text-align:right"><strong>Total</strong></td>
+                    <td id="total-precio">$0.00</td>
+                    <td></td>
+                </tr>
+            </tfoot>
+        </table>
+
+        <!-- Botones -->
+        <div class="form-buttons">
+            <button type="button" id="btn-guardar">Guardar Orden</button>
+            <button type="button" id="btn-cancelar">Cancelar</button>
+        </div>
+
+    </form>
+
+</div>
+
+<meta name="csrf-token" content="{{ csrf_token }}">
+<script src="{% static 'examenes/nueva_solicitud.js' %}"></script>
+
+{% endblock %}

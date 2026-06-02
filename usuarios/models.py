@@ -32,13 +32,14 @@ class Rol(models.Model):
 #SI NO TIENE SUCURSAL ES PARA USUARIOS CLIENTES O ADMINS
 class Usuario(AbstractUser):
     rol = models.ForeignKey(Rol, on_delete=models.PROTECT, null=True, blank=True)
+
     sucursal = models.ForeignKey(
         Sucursal,
         on_delete=models.CASCADE,
         related_name='empleados',
         null=True,
         blank=True)
- 
+
 
 #ESTE MOdelo soportará hasta el JVPLC D3 8 digitos
 class RegistroAnalistaClinico(models.Model):

@@ -34,12 +34,25 @@ def login_view(request):
                 #redireccionar según rol
                 if user.groups.filter(name='Laboratoristas').exists():
                     return redirect('usuarios:lab-dashboard')
+<<<<<<< HEAD
+                #ESTE CÓDIGO ESTABA ASÍ ANTES 
+                # elif user.groups.filter(name='recepcion-dashboard').exists():
+                #    return redirect('recepcionista_dashboard')
+
+                elif user.groups.filter(name='Recepcionistas').exists():
+                    #Esto antes estaba como   return redirect('recepcionista_dashboard')
+                    return redirect('usuarios:recepcion-dashboard')
+                
+                elif user.groups.filter(name='Almacenistas').exists():
+                    return redirect('usuarios:inventario-dashboard')
+=======
                 elif user.groups.filter(name='recepcion-dashboard').exists():
                     return redirect('usuarios:recepcionista_dashboard')
                 elif user.groups.filter(name='Almacenistas').exists():
                     return redirect('usuarios:inventario-dashboard')
                 elif user.groups.filter(name='Pacientes').exists():
                     return redirect('pacientes:dashboard_paciente')
+>>>>>>> dfd73fdcacca9ad252bd1b6be7a64d3f35815a3d
                 else:
                     return redirect('usuarios:login')  # Redirige al login si el usuario no tiene un rol asignado
             else:
