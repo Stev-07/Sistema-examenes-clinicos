@@ -14,6 +14,8 @@ def create_paciente_expediente(request):
             #variables de sesion para mostrar mensaje de éxito
             request.session['expediente_numero'] = Nuevopaciente['expediente'].numero_expediente
             messages.success(request, f"Se ha creado con éxito el expediente para {Nuevopaciente['usuario'].first_name} {Nuevopaciente['usuario'].last_name} con número de expediente {Nuevopaciente['expediente'].numero_expediente}.")
+            if request.user.groups.filter(name='Recepcionistas').exists():
+                return redirect('usuarios:recepcionista_dashboard')
             return redirect('usuarios:login')
 
         print("Errores del formulario:", form.errors)  # Debug: Verificar errores del formulario
@@ -25,3 +27,6 @@ def create_paciente_expediente(request):
         form = ClienteForm()
         form_user = UsuarioDatosForm()
         return render(request, 'create_paciente.html', {'form': form, 'form_user': form_user})
+
+def dashboard_paciente(request):
+    return render(request, 'dashboard_paciente.html')

@@ -42,6 +42,7 @@ LAYOUT GENERAL
     transition: all 0.3s ease;
 }
 
+<<<<<<< HEAD
 /* ==========================
 SIDEBAR
 ========================== */
@@ -236,4 +237,31 @@ SIDEBAR COLAPSADO
 
 .sidebar li {
     margin-bottom: 5px;
+=======
+
+/*ESTILOS BOTON LOGOUT O CERRAR SESION*/
+.logout-container {
+    padding: 15px;
+    margin-top: auto; /* Si tu navbar usa flexbox, esto lo empujará hasta el fondo */
+}
+
+.btn-logout {
+    background: none;
+    border: none;
+    color: #ff4d4d; /* Un color rojo sutil para denotar salida */
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    font-size: 16px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    transition: background 0.3s;
+}
+
+.btn-logout:hover {
+    background: rgba(255, 77, 77, 0.1);
+    border-radius: 5px;
+>>>>>>> dfd73fdcacca9ad252bd1b6be7a64d3f35815a3d
 }

@@ -1,0 +1,8 @@
+            <div class="logout-container">
+                <form action="{% url 'usuarios:logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit" class="btn-logout">
+                        <i class="fas fa-sign-out-alt"></i> Cerrar Sesión
+                    </button>
+                </form>
+            </div>

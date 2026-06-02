@@ -2,6 +2,11 @@ from .models import *
 from usuarios.models import TipoRol, Rol
 from django.db import transaction
 from django.contrib.auth.models import Group
+from django.core.mail import send_mail
+from django.core.mail import EmailMultiAlternatives
+from django.template.loader import render_to_string
+from django.utils.html import strip_tags
+from django.conf import settings
 #se manejo la logica en 2 forms uno para los datos y otra para los datos de cuenta/login
 #luego de relacionar ambos forms, se crea el expediente
 #create_expediente_service es excñusivo de la secretaria
@@ -35,4 +40,22 @@ def create_expediente_service(form, form_user):
         'usuario': usuario,
     }
     print(f"se ha creado con exito el usuario y el expediente {expediente.numero_expediente} {usuario.first_name} {usuario.last_name}")
+    correo_bienvenida_service(usuario.username, usuario.first_name)
     return context
+
+def correo_bienvenida_service(paciente_mail, paciente_nombre):
+    asunto = '¡Bienvenido a nuestra plataforma!'
+    desde_email = settings.DEFAULT_FROM_EMAIL
+    para = [paciente_mail]
+    
+    contexto = {'nombre': paciente_nombre}
+    html_content = render_to_string('correo_welcome.html', contexto)
+    text_content = strip_tags(html_content) 
+
+    msg = EmailMultiAlternatives(asunto, text_content, desde_email, para)
+    msg.attach_alternative(html_content, "text/html")
+    
+    # Enviar
+    msg.send()
+
+    return
