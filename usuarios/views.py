@@ -33,13 +33,19 @@ def login_view(request):
                 login(request, user)
                 #redireccionar según rol
                 if user.groups.filter(name='Laboratoristas').exists():
-                    return redirect('lab-dashboard')
-                elif user.groups.filter(name='recepcion-dashboard').exists():
-                    return redirect('recepcionista_dashboard')
+                    return redirect('usuarios:lab-dashboard')
+                #ESTE CÓDIGO ESTABA ASÍ ANTES 
+                # elif user.groups.filter(name='recepcion-dashboard').exists():
+                #    return redirect('recepcionista_dashboard')
+
+                elif user.groups.filter(name='Recepcionistas').exists():
+                    #Esto antes estaba como   return redirect('recepcionista_dashboard')
+                    return redirect('usuarios:recepcion-dashboard')
+                
                 elif user.groups.filter(name='Almacenistas').exists():
-                    return redirect('inventario-dashboard')
+                    return redirect('usuarios:inventario-dashboard')
                 else:
-                    return redirect('login')  # Redirige al login si el usuario no tiene un rol asignado
+                    return redirect('usuarios:login')  # Redirige al login si el usuario no tiene un rol asignado
             else:
                 form.add_error(None, 'Credenciales inválidas')
 
