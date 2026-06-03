@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
 LOGIN_URL = 'usuarios:login'
- # Redirige al dashboard del laboratorista por defecto después del login
+# Redirige al dashboard del laboratorista por defecto después del login
 #Cuando el usuario cierra sesión lo redirige al login
 LOGOUT_REDIRECT_URL = 'usuarios:login'
 
@@ -105,7 +105,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sistema_clinico',
         'USER': 'postgres',
-        'PASSWORD': 'rs22042',
+        'PASSWORD': 'yo2003',
         'HOST': 'localhost',
         'PORT': '5432',
     }
