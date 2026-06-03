@@ -3,9 +3,8 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden, JsonResponse
 from django.views.decorators.http import require_POST
 from clientes.models import Cliente, Expediente
-from .models import TipoExamen, Orden, Doctor, Pagos
+from .models import TipoExamen, Orden, Doctor, Pagos, ExamenRealizado
 from .forms import DoctorForm, OrdenForm
-from .services import crear_examenes_desde_orden
 
 #Verificamos el rol del usuario al ingresar para gestionar los exámenes
 @login_required
@@ -66,12 +65,13 @@ def previsualizar_pago(request):
 
     if doctor_form.is_valid() and orden_form.is_valid():
         request.session['orden_pendiente'] = {
-            'expediente_id': orden_form.cleaned_data['expediente_id'],
+            'expediente_id': request.POST.get('expediente_id'),
             'examenes_ids': request.POST.getlist('examenes'),
             'nombre_doctor': doctor_form.cleaned_data['nombreD'],
             'jvpm': doctor_form.cleaned_data['jvpm'],
-            'encabezado': '',
+            'encabezado': orden_form.cleaned_data['encabezado'],
             'correlativo': orden_form.cleaned_data['correlativo'],
+            'fechaEmision': str(orden_form.cleaned_data['fechaEmision']),
             'total': str(orden_form.cleaned_data['total']),
         }
         return redirect('pago-orden')
@@ -105,8 +105,6 @@ def confirmar_pago(request):
     if not request.user.rol or request.user.rol.nombre != 'REC':
         return HttpResponseForbidden("No tenés permiso para acceder a esta página.")
     
-    #Esta es una medida de seguridad por si el usuario llegara a cerrar el navegador
-    #no tire un error y detenga el programa, en vez de eso devolvería none
     orden_pendiente = request.session.get('orden_pendiente')
     if not orden_pendiente:
         return redirect('nueva-orden')
@@ -125,17 +123,23 @@ def confirmar_pago(request):
             doctor=doctor,
             encabezado=orden_pendiente['encabezado'],
             correlativo=orden_pendiente['correlativo'],
+            fechaEmision=orden_pendiente['fechaEmision'],
         )
 
-        
-        Pagos.objects.create(
+        for examen_id in orden_pendiente['examenes_ids']:
+            examen = TipoExamen.objects.get(id=examen_id)
+            ExamenRealizado.objects.create(
+                orden=orden,
+                tipo_examen=examen,
+                procesado_por=request.user
+        )
+
+            Pagos.objects.create(
             orden=orden,
             monto=orden_pendiente['total'],
             tipo_pago=tipo_pago,
             completado=True
         )
-
-        crear_examenes_desde_orden(orden, orden_pendiente['examenes_ids'])
 
         del request.session['orden_pendiente']
         return redirect('nueva-orden')

@@ -39,7 +39,7 @@ class Orden(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.PROTECT)
     encabezado = models.CharField(max_length=100, null=False, blank=False)
     correlativo = models.IntegerField(null=False, blank=False)
-    fechaEmision = models.DateTimeField(auto_now_add=True)
+    fechaEmision = models.DateField(null=False, blank=False, auto_now_add=True)
 
     def __str__(self):
         return f"Orden {self.correlativo} - {self.expediente}"
@@ -86,23 +86,6 @@ class Resultado(models.Model):
 
     def __str__(self):
         return f"{self.parametro.nombreP}: {self.valor}"
-
-#Clase para el reporte clinico
-class ReporteClinicoPDF(models.Model):
-    orden = models.ForeignKey(Orden, on_delete=models.PROTECT, related_name='reportes')
-    fecha_emision = models.DateTimeField(auto_now_add=True)
-    consecutivo = models.CharField(max_length=50)
-    observaciones = models.CharField(max_length=500, null=True, blank=True)
-    encabezado = models.CharField(max_length=100, null=True, blank=True)  # ← nullable
-    generado_por = models.ForeignKey(                                      # ← falta
-        'usuarios.Usuario',
-        null=True, blank=True,
-        on_delete=models.SET_NULL,
-        related_name='reportes_generados'
-    )
-
-    def __str__(self):
-        return f"Reporte #{self.consecutivo} - Orden {self.orden.id}"
     #PODER CREAR UN EXÁMEN, CREARLE SUS PARAMÉTROS, CREAR UN RESULTADO EXAMEN Y UN RESULTADO PARAMETROD
     #QUE SE RELACIONEN ENTRE ELLOS CON SUS RESPETIVAS LALVES ETC, Y SE DEBEN PDOER TENER 
     #SUS RELACIONES

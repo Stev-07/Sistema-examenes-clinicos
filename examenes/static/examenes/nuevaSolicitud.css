@@ -1,31 +1,211 @@
-.hidden {
-    display: none;
+.solicitud-container {
+    max-width: 900px;
+    padding: 15px 28px;
 }
 
-.modal {
-    position: fixed;
-    top: 0;
-    left: 0;
+.solicitud-container::before {
+    display: block;
+    font-size: 22px;
+    font-weight: 700;
+    color: #0072bc;
+    margin-bottom: 25px;
+    padding-bottom: 10px;
+}
+
+form {
     width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
 }
 
-.modal-contenido {
+.paciente-section,
+.doctor-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 15px 25px;
+    margin-bottom: 25px;
+}
+
+.field-group {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.field-group label,
+.examen-search-section label {
+    font-weight: 600;
+    color: #4b5563;
+    font-size: 13px;
+}
+
+.field-group input,
+.search-wrapper input {
+    border: none;
+    border-bottom: 2px solid #a8a8a8;
+    padding: 5px 4px;
+    font-size: 13px;
+    height: 32px;
+    outline: none;
+    background: transparent;
+}
+
+.field-group input:focus,
+.search-wrapper input:focus {
+    border-bottom-color: #0072bc;
+}
+
+#btn-aceptar {
+    margin-top: 6px;
+    width: 95px;
+    background: #00689d;
+    color: white;
+    border: none;
+    font-size: 13px;
+    border-radius: 6px;
+    padding: 7px;
+    cursor: pointer;
+}
+
+#btn-aceptar:hover {
+    background: #00557f;
+}
+
+.examen-search-section {
+    width: 55%;
+    margin: 20px auto 30px;
+}
+
+.search-wrapper {
+    position: relative;
+}
+
+#search-examen {
+    width: 100%;
+    border: 2px solid #00689d;
+    border-radius: 25px;
+    padding: 11px 16px;
     background: white;
-    padding: 30px;
-    border-radius: 8px;
-    min-width: 300px;
-    text-align: center;
 }
 
-.modal-botones {
-    margin-top: 20px;
+.dropdown {
+    position: absolute;
+    width: 100%;
+    background: white;
+    border: 1px solid #b7dce9;
+    border-radius: 8px;
+    margin-top: 5px;
+    box-shadow: 0 5px 12px rgba(0,0,0,0.12);
+    z-index: 20;
+}
+
+.dropdown div {
+    padding: 10px 14px;
+    cursor: pointer;
+}
+
+.dropdown div:hover {
+    background: #eaf7fb;
+}
+
+#tabla-examenes {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 25px;
+    font-size: 15px;
+}
+
+#tabla-examenes th {
+    background: #00689d;
+    color: white;
+    padding: 12px;
+    text-align: left;
+}
+
+#tabla-examenes td {
+    padding: 11px;
+    border-bottom: 1px solid #d7e7ee;
+    color: #374151;
+}
+
+#tabla-examenes tbody tr:nth-child(even) {
+    background: #f4fbfd;
+}
+
+#tabla-examenes tfoot td {
+    font-weight: bold;
+    background: #eaf7fb;
+}
+
+.form-buttons {
     display: flex;
-    gap: 10px;
     justify-content: center;
+    gap: 80px;
+    margin-top: 30px;
+}
+
+.form-buttons button {
+    background: #00689d;
+    color: white;
+    border: none;
+    border-radius: 7px;
+    padding: 12px 28px;
+    font-size: 15px;
+    cursor: pointer;
+}
+
+.form-buttons button:hover {
+    background: #00557f;
+}
+
+#btn-cancelar {
+    background: #6b7280;
+}
+
+#btn-cancelar:hover {
+    background: #4b5563;
+}
+
+.alerta-error {
+    background: #ffe5e5;
+    color: #991b1b;
+    border-left: 5px solid #dc2626;
+    padding: 12px 18px;
+    border-radius: 6px;
+    margin-bottom: 20px;
+}
+
+.section-title {
+    grid-column: 1 / -1;
+    color: #0072bc;
+    font-size: 17px;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+.orden-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 35px;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #d7e7ee;
+}
+
+.orden-section .field-group:first-of-type {
+    grid-column: 1 / -1;
+}
+
+.paciente-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 35px;
+    margin-bottom: 22px;
+    padding-bottom: 16px;
+    border-bottom: 1px solid #d7e7ee;
+}
+
+.doctor-section {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px 35px;
+    margin-bottom: 22px;
 }

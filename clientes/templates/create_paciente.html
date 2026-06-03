@@ -1,20 +1,84 @@
+
+
 {% extends 'base.html' %}
 {% load static %}
 
 {% block title %}Crear Expediente{% endblock %}
 
 {% block content %}
-<div class="contenedor-crear-expediente">      
-        <h2>Crear Expediente</h2>
-        <form method="post">
-            {% csrf_token %}
-            {{ form.as_p }}
-            {{form_user.as_p}}
-            <button type="submit">Crear Expediente</button>
+
+<link rel="stylesheet" href="{% static 'clientes/paciente.css' %}">
+
+<div class="paciente-container">
+
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        <div class="paciente-section">
+
+            <div class="field-group">
+                <label>{{ form_user.first_name.label }}</label>
+                {{ form_user.first_name }}
+            </div>
+
+            <div class="field-group">
+                <label>{{ form_user.last_name.label }}</label>
+                {{ form_user.last_name }}
+            </div>
+
+            <div class="field-group">
+                <label>{{ form.n_dui.label }}</label>
+                {{ form.n_dui }}
+            </div>
+
+            <div class="field-group">
+                <label>{{ form.fecha_nacimiento.label }}</label>
+                {{ form.fecha_nacimiento }}
+            </div>
+
+            <div class="field-group">
+                <label>{{ form.sexo.label }}</label>
+                {{ form.sexo }}
+            </div>
+
+            <div class="field-group">
+                <label>{{ form.correo_electronico.label }}</label>
+                {{ form.correo_electronico }}
+            </div>
+
+            <div class="field-group">
+                <label>{{ form_user.password1.label }}</label>
+                {{ form_user.password1 }}
+
+                <div class="help-text">
+                    {{ form_user.password1.help_text }}
+                </div>
+            </div>
+
+            <div class="field-group">
+                <label>{{ form_user.password2.label }}</label>
+                {{ form_user.password2 }}
+            </div>
+
+        </div>
+
+        <div class="form-buttons">
+
+            <button type="submit" class="btn-guardar">
+                Guardar
+            </button>   
             <a href="{% url 'usuarios:recepcion-dashboard' %}">
-                <button type="button">Cancelar</button>
+                <button type="button" id="btn-cancelar">
+                    Cancelar
+                </button>
             </a>
-        </form>
+
+        </div>
+
+    </form>
 
 </div>
+
 {% endblock %}
