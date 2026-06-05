@@ -17,6 +17,8 @@ class TipoTituloProfesional(models.TextChoices):
 class Sucursal(models.Model):
     nombre = models.CharField(max_length=50, null=False, blank=False)
     ubicacion = models.CharField(max_length=50, null=False, blank=False)
+    departamento = models.CharField(max_length=50, null=False, blank=False, default= "")
+    numero_telefono = models.CharField(max_length=8, null=True, blank=False, default="")
 
     def __str__(self):
         return self.nombre

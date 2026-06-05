@@ -7,6 +7,10 @@ from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 from django.conf import settings
+from datetime import date
+from django.utils import timezone
+
+
 #se manejo la logica en 2 forms uno para los datos y otra para los datos de cuenta/login
 #luego de relacionar ambos forms, se crea el expediente
 #create_expediente_service es excñusivo de la secretaria
@@ -59,3 +63,13 @@ def correo_bienvenida_service(paciente_mail, paciente_nombre):
     msg.send()
 
     return
+
+# Función para calcular la edad
+def calcular_edad(fecha_nacimiento):
+    hoy = timezone.localdate()
+    edad = hoy.year - fecha_nacimiento.year
+    
+    # Restar 1 si aún no ha llegado el cumpleaños este año
+    if (hoy.month, hoy.day) < (fecha_nacimiento.month, fecha_nacimiento.day):
+        edad -= 1
+    return edad

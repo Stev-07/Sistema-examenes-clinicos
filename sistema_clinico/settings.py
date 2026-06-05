@@ -63,8 +63,7 @@ INSTALLED_APPS = [
     'usuarios',
     'clientes',
     'examenes',
-
-
+    'reportesPDF',
 ]
 
 MIDDLEWARE = [

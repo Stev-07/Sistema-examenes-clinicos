@@ -1,6 +1,28 @@
 from django.db import models
 from usuarios.models import Usuario
 from clientes.models import Expediente
+from reportesPDF.models import ConfiguracionReporte
+
+class TiposPerfil(models.TextChoices):
+    QUIMICA_SANGUINEA = 'QSAN', 'QUIMICA SANGUÍNEA'
+    QUIMICA_URINARIA = 'QURI', 'QUIMICA URINARIA'
+    ELECTROLITOS = 'ELEC', 'ELECTROLITOS'
+    HEMATOLOGIA = 'HEMA', 'HEMATOLOGIA'
+    COAGULACION = 'COAG', 'COAGULACIÓN'
+    ENDOCRINOLOGIA = 'ENDO', 'ENDOCRINOLOGÍA'
+    INMUNOLOGIA = 'INMU', 'INMUNOLOGÍA'
+    MICROBIOLOGIA = 'MICR', 'MICROBIOLOGÍA'
+    PRUEBAS_ESPECIALES = 'PESP', 'PRUEBAS ESPECIALES'
+    MARCADORES_TUMORALES = 'MTUM', 'MARCADORES TUMORALES'
+    MARCADORES_CARDIACOS = 'MCAR', 'MARCADORES CARDÍACOS'
+    NIVELES_SERICOS = 'NSRE', 'NIVELES SÉRICOS'
+    BIOLOGIA_MOLECULAR = 'BMOL', 'BIOLOGÍA MOLECULAR'
+    UROANALISIS = 'UROA', 'UROANÁLISIS'
+    COPROLOGIA = 'COPR', 'COPROLOGÍA'
+    DROGAS_ORINA = 'DORO', 'DROGAS EN ORINA'
+    DROGAS_TERAPEUTICAS = 'DTER', 'DROGAS TERAPÉUTICAS'
+    INMUNOGLOBULINAS = 'IMGL', 'INMUNOGLOBULINAS'
+
 
 # Clase con la que se definirán los parámetros de los exámenes
 # Clase con la que se definirán los exámenes con sus respectivos datos
@@ -9,6 +31,13 @@ class TipoExamen(models.Model):
     nombre = models.CharField(max_length=100, null=False, blank=False)
     precio = models.DecimalField(max_digits=8, decimal_places=2, null=False, blank=False)
     especial = models.BooleanField(default=False)
+    perfil = models.CharField(max_length=100, choices=TiposPerfil.choices, null=True, blank=True)
+    categoria = models.ForeignKey(
+        ConfiguracionReporte,
+        null=True,
+        blank=True,
+        on_delete=models.SET_NULL
+    )
 
     def __str__(self):
         return self.nombre
@@ -18,7 +47,7 @@ class ParametroDefinicion(models.Model):
     #ESTE PARAMÉTRO APUNTA A SU UNICO EXAMEN 
     tipo_examen = models.ForeignKey(TipoExamen, on_delete=models.PROTECT, related_name='parametros')
     nombreP = models.CharField(max_length=100, null=False, blank=False)
-    tipo = models.CharField(max_length=10, null=False, blank=False)
+    tipo = models.CharField(max_length=10, null=True, blank=False)
     valorNorma = models.CharField(max_length=25, null=False, blank=False)
     unidadMedida = models.CharField(max_length=25, null=False, blank=False)
 
@@ -37,9 +66,8 @@ class Doctor(models.Model):
 class Orden(models.Model):
     expediente = models.ForeignKey('clientes.Expediente', on_delete=models.PROTECT)
     doctor = models.ForeignKey(Doctor, on_delete=models.PROTECT)
-    encabezado = models.CharField(max_length=100, null=False, blank=False)
     correlativo = models.IntegerField(null=False, blank=False)
-    fechaEmision = models.DateTimeField(auto_now_add=True)
+    fechaEmision = models.DateField(auto_now_add=False)
 
     def __str__(self):
         return f"Orden {self.correlativo} - {self.expediente}"
