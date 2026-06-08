@@ -39,7 +39,7 @@ class Orden(models.Model):
     doctor = models.ForeignKey(Doctor, on_delete=models.PROTECT)
     encabezado = models.CharField(max_length=100, null=False, blank=False)
     correlativo = models.IntegerField(null=False, blank=False)
-    fechaEmision = models.DateField(null=False, blank=False, auto_now_add=True)
+    fechaEmision = models.DateField(null=False, blank=False, auto_now_add=False)
 
     def __str__(self):
         return f"Orden {self.correlativo} - {self.expediente}"
