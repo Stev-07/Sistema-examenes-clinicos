@@ -7,6 +7,11 @@ from reportlab.lib import colors
 
 styles = getSampleStyleSheet()
 style_normal = styles['Normal']
+def get_tipo_muestra(examen_realizado):
+
+    if hasattr(examen_realizado.tipo_examen, 'muestra'):
+        return examen_realizado.tipo_examen.muestra.upper()
+    return "MUESTRA DESCONOCIDA"
 
 
 # --- DISEÑO 1: REPORTE TIPO TABLA (Estándar de 4 columnas) ---
@@ -15,7 +20,7 @@ def generar_diseno_tabla(examen_realizado):
     
     # Cabecera de la sección con el nombre del examen
     filas = [
-        [Paragraph(f"<b>MUESTRA: SUERO / {examen_realizado.tipo_examen.nombre.upper()}</b>", style_normal), "", "", ""],
+        [Paragraph(f"<b>MUESTRA: {get_tipo_muestra(examen_realizado)} / {examen_realizado.tipo_examen.nombre.upper()}</b>", style_normal), "", "", ""],
         ["Prueba", "Resultado", "Unidades", "Rangos de Referencia"]
     ]
     

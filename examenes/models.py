@@ -25,7 +25,6 @@ class TiposPerfil(models.TextChoices):
 #CLASE PARA TIPO DE PARAMETROS
 #ANTEPOSICIÓN Y = SI, N = NO, C = CRITICO
 class TipoResultado(models.TextChoices):
-    NUMERICO = "NUMER", "Numérico"
     POSITIVO = "POSIT", "Positivo"
     NEGATIVO = "NEGAT", "Negativo"
     REACTIVO = "YREAC", "Reactivo"
@@ -46,6 +45,28 @@ class TipoResultado(models.TextChoices):
     ABUNDANTE = "ABUND", "Abundante"
     INDETERMINADO = "INDET", "Indeterminado"
 
+TIPO_MUESTRA = [
+    ('suero', 'Suero'),
+    ('plasma', 'Plasma'),
+    ('sangre_total', 'Sangre Total'),
+    ('sangre_capilar', 'Sangre Capilar'),
+    ('orina', 'Orina'),
+    ('orina_24h', 'Orina 24 Horas'),
+    ('heces', 'Heces'),
+    ('esputo', 'Esputo'),
+    ('semen', 'Semen'),
+    ('hisopado_faringeo', 'Hisopado Faríngeo'),
+    ('hisopado_nasal', 'Hisopado Nasal'),
+    ('exudado_vaginal', 'Exudado Vaginal'),
+    ('exudado_uretral', 'Exudado Uretral'),
+    ('secrecion_herida', 'Secreción de Herida'),
+    ('lcr', 'Líquido Cefalorraquídeo'),
+    ('liquido_pleural', 'Líquido Pleural'),
+    ('liquido_peritoneal', 'Líquido Peritoneal'),
+    ('liquido_sinovial', 'Líquido Sinovial'),
+    ('biopsia', 'Biopsia'),
+    ('otro', 'Otro'),
+]
 # Clase con la que se definirán los parámetros de los exámenes
 # Clase con la que se definirán los exámenes con sus respectivos datos
 class TipoExamen(models.Model):
@@ -54,11 +75,12 @@ class TipoExamen(models.Model):
     precio = models.DecimalField(max_digits=8, decimal_places=2, null=False, blank=False)
     especial = models.BooleanField(default=False)
     perfil = models.CharField(max_length=100, choices=TiposPerfil.choices, null=True, blank=True)
-    categoria = models.ForeignKey(
-        ConfiguracionReporte,
-        null=True,
+    muestra = models.CharField(
+        max_length=20, 
+        choices=TIPO_MUESTRA, 
+        null=True, 
         blank=True,
-        on_delete=models.SET_NULL
+        default='suero'
     )
 
     def __str__(self):
@@ -69,12 +91,18 @@ class ParametroDefinicion(models.Model):
     #ESTE PARAMÉTRO APUNTA A SU UNICO EXAMEN 
     tipo_examen = models.ForeignKey(TipoExamen, on_delete=models.PROTECT, related_name='parametros')
     nombreP = models.CharField(max_length=100, null=False, blank=False)
+    tipo_choices = [
+        ('cuant', 'CUANTITATIVO'),
+        ('cuali', 'CUALITATIVO'),
+        ('porc', 'PORCENTUAL'),
+        ('otros', 'OTROS')
+    ]
     tipo = models.CharField(
         max_length=10,
         null=True,
         blank=False,
-        choices=TipoResultado.choices,
-        default=TipoResultado.NUMERICO
+        choices=tipo_choices,
+        default='cuant'
     )
     valorNorma = models.CharField(max_length=25, null=False, blank=False)
     unidadMedida = models.CharField(max_length=25, null=False, blank=False)
