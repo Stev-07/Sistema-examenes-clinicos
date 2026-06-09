@@ -62,11 +62,18 @@ def generar_encabezado_clinica(datos_clinica):
 
 # --- DATOS DEL PACIENTE ---
 def generar_bloque_paciente(orden):
+    nombre_medico = orden.doctor if orden.doctor else "No especificado"
+    
+    # Intentamos obtener la fecha de la orden si existe en tu modelo, si no, dejamos "N/A"
+    fecha_orden = orden.fechaEmision.strftime('%d/%m/%Y') if hasattr(orden, 'fechaEmision') and orden.fechaEmision else "N/A"
+
     data = [
         ["Nombre del paciente", "Edad"],
         [get_name_patient(orden), get_edad_patient(orden)],
         ["No. Expediente", "Género"],
-        [orden.expediente.numero_expediente, get_genero(orden)]
+        [orden.expediente.numero_expediente, get_genero(orden)],
+        ["Médico Recetante", "Fecha de Orden"], 
+        [nombre_medico, fecha_orden]         
     ]   
     
     tabla = Table(data, colWidths=[400, 132])
@@ -74,10 +81,16 @@ def generar_bloque_paciente(orden):
         # Fila 0 (Títulos superiores)
         ('BACKGROUND', (0,0), (-1,0), colors.HexColor('#F0F4F8')),
         ('FONTNAME', (0,0), (-1,0), 'Helvetica-Bold'),
-        # Fila 2 (Títulos inferiores)
+        
+        # Fila 2 (Títulos del medio)
         ('BACKGROUND', (0,2), (-1,2), colors.HexColor('#F0F4F8')),
         ('FONTNAME', (0,2), (-1,2), 'Helvetica-Bold'),
-        # Estilos generales
+        
+        # Fila 4 (Nuevos títulos inferiores: Médico y Fecha)
+        ('BACKGROUND', (0,4), (-1,4), colors.HexColor('#F0F4F8')),
+        ('FONTNAME', (0,4), (-1,4), 'Helvetica-Bold'),
+        
+        # Estilos generales para toda la tabla
         ('FONTSIZE', (0,0), (-1,-1), 9),
         ('ALIGN', (0,0), (-1,-1), 'CENTER'),
         ('GRID', (0,0), (-1,-1), 1, colors.HexColor('#0000BB')),

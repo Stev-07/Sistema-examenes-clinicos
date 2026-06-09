@@ -1,7 +1,6 @@
 from django.db import models
-from usuarios.models import Usuario
-from clientes.models import Expediente
 from reportesPDF.models import ConfiguracionReporte
+from django.db import models
 
 class TiposPerfil(models.TextChoices):
     QUIMICA_SANGUINEA = 'QSAN', 'QUIMICA SANGUÍNEA'
@@ -23,6 +22,29 @@ class TiposPerfil(models.TextChoices):
     DROGAS_TERAPEUTICAS = 'DTER', 'DROGAS TERAPÉUTICAS'
     INMUNOGLOBULINAS = 'IMGL', 'INMUNOGLOBULINAS'
 
+#CLASE PARA TIPO DE PARAMETROS
+#ANTEPOSICIÓN Y = SI, N = NO, C = CRITICO
+class TipoResultado(models.TextChoices):
+    NUMERICO = "NUMER", "Numérico"
+    POSITIVO = "POSIT", "Positivo"
+    NEGATIVO = "NEGAT", "Negativo"
+    REACTIVO = "YREAC", "Reactivo"
+    NO_REACTIVO = "NREAC", "No Reactivo"
+    DETECTADO = "YDETE", "Detectado"
+    NO_DETECTADO = "NDETE", "No Detectado"
+    PRESENTE = "PRESE", "Presente"
+    AUSENTE = "AUSEN", "Ausente"
+    NORMAL = "NORMA", "Normal"
+    ANORMAL = "ANORM", "Anormal"
+    ALTO = "ALTO", "Alto"
+    BAJO = "BAJO", "Bajo"
+    CRITICO_ALTO = "CALTO", "Crítico Alto"
+    CRITICO_BAJO = "CBAJO", "Crítico Bajo"
+    TRAZA = "TRAZA", "Traza"
+    ESCASO = "ESCAS", "Escaso"
+    MODERADO = "MODER", "Moderado"
+    ABUNDANTE = "ABUND", "Abundante"
+    INDETERMINADO = "INDET", "Indeterminado"
 
 # Clase con la que se definirán los parámetros de los exámenes
 # Clase con la que se definirán los exámenes con sus respectivos datos
@@ -47,7 +69,13 @@ class ParametroDefinicion(models.Model):
     #ESTE PARAMÉTRO APUNTA A SU UNICO EXAMEN 
     tipo_examen = models.ForeignKey(TipoExamen, on_delete=models.PROTECT, related_name='parametros')
     nombreP = models.CharField(max_length=100, null=False, blank=False)
-    tipo = models.CharField(max_length=10, null=True, blank=False)
+    tipo = models.CharField(
+        max_length=10,
+        null=True,
+        blank=False,
+        choices=TipoResultado.choices,
+        default=TipoResultado.NUMERICO
+    )
     valorNorma = models.CharField(max_length=25, null=False, blank=False)
     unidadMedida = models.CharField(max_length=25, null=False, blank=False)
 
@@ -104,7 +132,7 @@ class ExamenRealizado(models.Model):
     procesado_por = models.ForeignKey('usuarios.Usuario', null=True, blank=True, on_delete=models.SET_NULL)
 
     def __str__(self):
-        return f"Examen realizado #{self.id}"
+        return f"Examen realizado #{self.id}-nombre: {self.tipo_examen.nombre} - Orden: {self.orden.correlativo} - Estado: {self.estado}"
 
 #Clase para el resultado 
 class Resultado(models.Model): 
@@ -117,3 +145,5 @@ class Resultado(models.Model):
     #PODER CREAR UN EXÁMEN, CREARLE SUS PARAMÉTROS, CREAR UN RESULTADO EXAMEN Y UN RESULTADO PARAMETROD
     #QUE SE RELACIONEN ENTRE ELLOS CON SUS RESPETIVAS LALVES ETC, Y SE DEBEN PDOER TENER 
     #SUS RELACIONES
+
+    
