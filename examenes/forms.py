@@ -1,5 +1,6 @@
 from django import forms
 from .models import Orden, Doctor
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 class DoctorForm(forms.Form):
     nombreD = forms.CharField(
@@ -13,7 +14,25 @@ class DoctorForm(forms.Form):
     )
 
 class OrdenForm(forms.Form):
-    expediente_id = forms.IntegerField(widget=forms.HiddenInput(attrs={'id': 'expediente-id-hidden'}))
-    correlativo = forms.IntegerField(widget=forms.HiddenInput(attrs={'id': 'correlativo-hidden'}))
+    encabezado = forms.CharField(
+        max_length=100,
+        label='Encabezado',
+        widget=forms.TextInput(attrs={'placeholder': 'Encabezado de la orden'})
+    )
+    correlativo = forms.IntegerField(
+        label='Correlativo',
+        validators=[
+
+            MinValueValidator(1),
+            MaxValueValidator(9999999999) #máximo 10 digitos
+        ],
+        widget=forms.NumberInput(attrs={'placeholder': 'Número correlativo',
+        'max': '9999999999',
+        'oninput': 'this.value = this.value.slice(0, 10)'})
+    )
+    fechaEmision = forms.DateField(
+        label='Fecha de emisión',
+        widget=forms.DateInput(attrs={'type': 'date'})
+    )
     total = forms.DecimalField(max_digits=8, decimal_places=2, widget=forms.HiddenInput())
-    examenes = forms.CharField(widget=forms.HiddenInput())
+    examenes = forms.CharField(widget=forms.HiddenInput(), required=False)

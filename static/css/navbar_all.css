@@ -236,6 +236,7 @@ SIDEBAR COLAPSADO
 
 .sidebar li {
     margin-bottom: 5px;
+}
 
 /*ESTILOS BOTON LOGOUT O CERRAR SESION*/
 .logout-container {
@@ -261,4 +262,4 @@ SIDEBAR COLAPSADO
 .btn-logout:hover {
     background: rgba(255, 77, 77, 0.1);
     border-radius: 5px;
-}}
+}

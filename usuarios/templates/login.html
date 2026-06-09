@@ -1,29 +1,78 @@
 {% load static %}
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="{% static 'usuarios/style.css' %}">
+    <title>Iniciar Sesión</title>
+
+    <link rel="stylesheet" href="{% static 'usuarios/style.css' %}">
+    <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-    <title>Login</title>
-</head>
+
 <body>
 
-    <div class="logo-container">
-        <img src="{% static 'usuarios/logo.png' %}" alt="Logo" class="logo">
-    </div>
-    <div class="login-container">
-        <h2>Iniciar Sesion</h2>
+<div class="login-page">
+
+    <div class="login-card">
+
+        <img src="{% static 'imagenes/Logo.png' %}"
+            alt="FIA-MEDS"
+            class="logo">
+
+        <h1>Iniciar Sesión</h1>
+
         <form method="post">
+
             {% csrf_token %}
-            {{ form.as_p }}
-            <button type="submit">Ingresar</button>
+
+            <div class="login-field">
+
+                <label>Usuario</label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-regular fa-user"></i>
+
+                    {{ form.username }}
+
+                </div>
+
+            </div>
+
+            <div class="login-field">
+
+                <label>Contraseña</label>
+
+                <div class="input-wrapper">
+
+                    <i class="fa-solid fa-lock"></i>
+
+                    {{ form.password }}
+
+                </div>
+
+            </div>
+
+            <button type="submit" class="login-btn">
+                Ingresar
+            </button>
+
         </form>
-        <a href="{% url 'pacientes:crea_expediente' %}">
-            ¿No tienes una cuenta? Regístrate aquí
-        </a>
+
+        <div class="login-link">
+
+            <a href="{% url 'pacientes:crea_expediente' %}">
+                ¿No tienes una cuenta? Regístrate aquí
+            </a>
+
+        </div>
+
     </div>
+
+</div>
 
 </body>
 </html>

@@ -21,7 +21,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 AUTH_USER_MODEL = 'usuarios.Usuario'
 
 LOGIN_URL = 'usuarios:login'
- # Redirige al dashboard del laboratorista por defecto después del login
+# Redirige al dashboard del laboratorista por defecto después del login
 #Cuando el usuario cierra sesión lo redirige al login
 LOGOUT_REDIRECT_URL = 'usuarios:login'
 

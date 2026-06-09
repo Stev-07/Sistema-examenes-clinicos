@@ -29,13 +29,39 @@
         {% csrf_token %}
 
         <input type="hidden" name="expediente_id" id="expediente-id-hidden">
-        <input type="hidden" name="correlativo" id="correlativo-hidden" value="0">
+
+        <!--Datos de la orden-->
+        <div class="orden-section">
+            <h3 class="section-title">Datos de la orden</h3>
+
+            <div class="field-group">
+                <label>{{ orden_form.encabezado.label }}</label>
+                {{ orden_form.encabezado }}
+                {{ orden_form.encabezado.errors }}
+            </div>
+
+            <div class="field-group">
+                <label>{{ orden_form.correlativo.label }}</label>
+                {{ orden_form.correlativo }}
+                {{ orden_form.correlativo.errors }}
+            </div>
+
+            <div class="field-group">
+                <label>{{ orden_form.fechaEmision.label }}</label>
+                {{ orden_form.fechaEmision }}
+                {{ orden_form.fechaEmision.errors }}
+            </div>
+
+        </div>
+
 
         <!-- Datos del cliente -->
         <div class="paciente-section">
+            <h3 class="section-title">Datos del paciente</h3>
+
 
             <div class="field-group">
-                <label>ID del paciente (DUI)</label>
+                <label>Número de Identificación DUI</label>
                 <input type="text" id="dui-input" placeholder="000000000">
                 <button type="button" id="btn-aceptar">Aceptar</button>
             </div>
@@ -66,6 +92,7 @@
             </div>
 
         </div>
+
 
         <!-- Buscador de exámenes -->
         <div class="examen-search-section">

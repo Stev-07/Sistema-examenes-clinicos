@@ -6,34 +6,43 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'examenes/pago_orden.css' %}">
 
-<div class="solicitud-container">
+<div class="pago-container">
 
-    <form id="form-pago" method="POST" action="{% url 'confirmar-pago' %}">
-        {% csrf_token %}
+    <!-- Header con degradado y monto -->
+    <div class="pago-header">
+        <h3>Monto a pagar</h3>
+        <div class="monto-container">
+            <span class="monto-signo">$</span>
+            <span class="monto-numero">{{ total }}</span>
+        </div>
+    </div>
 
-        <div class="modal-contenido">
-            <h3>Opciones de pago</h3>
-            <p>Monto a pagar: <strong>${{ total }}</strong></p>
+    <!-- Opciones de pago -->
+    <div class="pago-opciones">
+        <h4>Seleccioná el método de pago</h4>
+
+        <form id="form-pago" method="POST" action="{% url 'confirmar-pago' %}">
+            {% csrf_token %}
 
             <div class="opcion-pago">
                 <input type="radio" name="tipo_pago" id="pago-efectivo" value="efectivo">
-                <label for="pago-efectivo">Pago en efectivo 💵</label>
+                <label for="pago-efectivo">💵 Pago en efectivo</label>
             </div>
 
             <div class="opcion-pago">
                 <input type="radio" name="tipo_pago" id="pago-tarjeta" value="tarjeta">
-                <label for="pago-tarjeta">Pago en tarjeta 💳</label>
+                <label for="pago-tarjeta">💳 Pago en tarjeta</label>
             </div>
 
-            <div class="modal-botones">
-                <button type="submit" id="btn-pagar">Pagar</button>
-                <a href="{% url 'nueva-orden' %}">
-                    <button type="button">Cancelar</button>
+            <div class="pago-botones">
+                <button type="submit" class="btn-pagar">Pagar</button>
+                <a href="{% url 'nueva-orden' %}" class="btn-link">
+                    <button type="button" class="btn-cancelar">Cancelar</button>
                 </a>
             </div>
-        </div>
 
-    </form>
+        </form>
+    </div>
 
 </div>
 
