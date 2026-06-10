@@ -1,80 +1,79 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-<link rel="stylesheet" href="{% static 'inventario/css/inventario_funciones.css' %}">
-<div class="container mt-4">
-    <div class="mb-3">
-        <a href="{% url 'inventario:item_inventario_list' %}" class="btn btn-sm btn-secondary">← Volver al Inventario</a>
+<link rel="stylesheet" href="{% static 'inventario/css/kardex.css' %}">
+
+<div class="inventory-container">
+    <div class="inventory-back-action">
+        <a href="{% url 'inventario:item_inventario_list' %}" class="btn-action-edit">← Volver al Inventario</a>
     </div>
 
-    <div class="row">
-        <div class="col-md-4 mb-4">
-            <div class="card border-info shadow-sm h-100">
-                <div class="card-header bg-info text-white">
-                    <h5 class="mb-0">Estado de Stock</h5>
+    <div class="kardex-layout">
+        
+        <div class="kardex-card profile-card">
+            <div class="kardex-card-header profile-card-header">
+                <h3>Estado de Stock</h3>
+            </div>
+            <div class="kardex-card-body">
+                <h2 class="profile-product-title">{{ item.insumo.nombre }}</h2>
+                <p class="profile-meta">SKU: <span class="sku-code">{{ item.insumo.SKU }}</span></p>
+                <p class="profile-meta">Sede: <strong>{{ item.inventario.sede.nombre }}</strong></p>
+                
+                <hr class="profile-divider">
+                
+                <div class="profile-stock-row">
+                    <span>Existencias actuales:</span>
+                    <span class="profile-stock-qty">{{ item.cantidad }}</span>
                 </div>
-                <div class="card-body">
-                    <h3>{{ item.insumo.nombre }}</h3>
-                    <p class="text-muted mb-1">SKU: {{ item.insumo.SKU }}</p>
-                    <p class="text-muted">Sede: <strong>{{ item.inventario.sede.nombre }}</strong></p>
-                    <hr>
-                    <div class="d-flex justify-content-between">
-                        <span>Existencias actuales:</span>
-                        <span class="fw-bold fs-4">{{ item.cantidad }}</span>
-                    </div>
-                    <div class="d-flex justify-content-between mb-3">
-                        <span>Límite mínimo:</span>
-                        <span class="text-danger fw-bold">{{ item.stock_minimo }}</span>
-                    </div>
+                <div class="profile-stock-row row-min">
+                    <span>Límite mínimo:</span>
+                    <span class="profile-stock-min">{{ item.stock_minimo }}</span>
                 </div>
             </div>
         </div>
 
-        <div class="col-md-8 mb-4">
-            <div class="card shadow-sm h-100">
-                <div class="card-header bg-dark text-white">
-                    <h5 class="mb-0">Kárdex / Últimos Movimientos de este Insumo</h5>
-                </div>
-                <div class="card-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-sm align-middle" style="font-size: 0.9rem;">
-                            <thead>
-                                <tr>
-                                    <th>Fecha</th>
-                                    <th>Operación</th>
-                                    <th>Cantidad</th>
-                                    <th>Responsable</th>
-                                    <th>Observaciones</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                {% for mov in movimientos %}
-                                <tr>
-                                    <td>{{ mov.fecha_movimiento|date:"d/m/Y H:i" }}</td>
-                                    <td>
-                                        {% if mov.tipo_movimiento == 'entrada' %}
-                                            <span class="badge bg-success">Entrada</span>
-                                        {% elif mov.tipo_movimiento == 'salida' %}
-                                            <span class="badge bg-danger">Salida</span>
-                                        {% else %}
-                                            <span class="badge bg-warning text-dark">Ajuste</span>
-                                        {% endif %}
-                                    </td>
-                                    <td class="fw-bold">{{ mov.cantidad }}</td>
-                                    <td>{{ mov.usuario.get_full_name|default:mov.usuario.username }}</td>
-                                    <td><small class="text-muted">{{ mov.observacion|default:"-" }}</small></td>
-                                </tr>
-                                {% empty %}
-                                <tr>
-                                    <td colspan="5" class="text-center text-muted py-3">No hay movimientos registrados para este ítem.</td>
-                                </tr>
-                                {% endfor %}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
+        <div class="kardex-card table-kardex-card">
+            <div class="kardex-card-header">
+                <h3>Kárdex / Últimos Movimientos de este Insumo</h3>
+            </div>
+            <div class="table-wrapper">
+                <table class="inventory-table">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Operación</th>
+                            <th>Cantidad</th>
+                            <th>Responsable</th>
+                            <th>Observaciones</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for mov in movimientos %}
+                        <tr>
+                            <td>{{ mov.fecha_movimiento|date:"d/m/Y H:i" }}</td>
+                            <td>
+                                {% if mov.tipo_movimiento == 'entrada' %}
+                                    <span class="badge-status status-active">Entrada</span>
+                                {% elif mov.tipo_movimiento == 'salida' %}
+                                    <span class="badge-status status-inactive">Salida</span>
+                                {% else %}
+                                    <span class="badge-status status-adjustment">Ajuste</span>
+                                {% endif %}
+                            </td>
+                            <td><strong class="stock-qty-highlight">{{ mov.cantidad }}</strong></td>
+                            <td><span class="user-badge">{{ mov.usuario.get_full_name|default:mov.usuario.username }}</span></td>
+                            <td><span class="text-muted-inline">{{ mov.observacion|default:"-" }}</span></td>
+                        </tr>
+                        {% empty %}
+                        <tr>
+                            <td colspan="5" class="empty-row">No hay movimientos registrados para este ítem.</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
             </div>
         </div>
+
     </div>
 </div>
 {% endblock %}

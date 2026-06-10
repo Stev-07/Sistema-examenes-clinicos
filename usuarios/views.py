@@ -37,7 +37,7 @@ def login_view(request):
                 elif user.groups.filter(name='Recepcionistas').exists():
                     return redirect('usuarios:recepcion-dashboard')
                 elif user.groups.filter(name='Almacenistas').exists():
-                    return redirect('inventario:inventario_home')
+                    return redirect('inventario:inventario_dashboard')
                 elif user.groups.filter(name='Pacientes').exists():
                     return redirect('pacientes:dashboard_paciente')
                 else:

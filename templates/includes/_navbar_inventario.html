@@ -11,15 +11,15 @@
     <nav>
         <ul>
             <li>               
-                <a href="#" class="nav-link">
-                    <span class="icon">🏠</span>{#- CAMBIAR LUEGO POR ICONOS DE FONTAWESOME#}
+                <a href="{% url 'inventario:inventario_dashboard' %}" class="nav-link">
+                    <i class="fa-solid fa-house"></i>
                     <span class="text">Inicio</span>
                 </a>
             </li>
         </ul>
         <ul>
             <li>
-                <a href="{% url 'usuarios:inventario-dashboard' %}" class="nav-link">                  
+                <a href="{% url 'inventario:insumo_list' %}" class="nav-link">                  
                     <div class="module-icon">
                         <i class="fas fa-user-injured"></i>
                     </div>
@@ -29,7 +29,7 @@
         </ul>
                 <ul>
             <li>
-                <a href="{% url 'usuarios:inventario-dashboard' %}" class="nav-link">                  
+                <a href="{% url 'inventario:item_inventario_list' %}" class="nav-link">                  
                 <div class="module-icon">
                     <i class="fas fa-vials"></i>
                 </div>
@@ -39,7 +39,7 @@
         </ul>
                 <ul>
             <li>
-                <a href="{% url 'usuarios:inventario-dashboard' %}" class="nav-link">                  
+                <a href="{% url 'inventario:movimiento_inventario_create' %}" class="nav-link">                  
                     <div class="module-icon">
                         <i class="fas fa-boxes"></i>
                     </div>

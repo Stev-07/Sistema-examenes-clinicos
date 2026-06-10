@@ -2,52 +2,53 @@
 {% load static %}
 {% block content %}
 <link rel="stylesheet" href="{% static 'inventario/css/inventario_funciones.css' %}">
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+
+<div class="inventory-container">
+    <!-- Encabezado del módulo -->
+    <div class="inventory-header">
         <h2>Catálogo de Insumos Clínicos</h2>
-        <a href="{% url 'inventario:insumo_create' %}" class="btn btn-primary">+ Nuevo Insumo</a>
+        <a href="{% url 'inventario:insumo_create' %}" class="btn-primary-action">+ Nuevo Insumo</a>
     </div>
 
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-dark">
-                        <tr>
-                            <th>SKU / Código</th>
-                            <th>Nombre</th>
-                            <th>Categoría</th>
-                            <th>U. Medida</th>
-                            <th>Estado</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for insumo in insumos %}
-                        <tr>
-                            <td><code>{{ insumo.SKU }}</code></td>
-                            <td><strong>{{ insumo.nombre }}</strong></td>
-                            <td>{{ insumo.categoria.nombre|default:"Sin categoría" }}</td>
-                            <td><span class="badge bg-secondary">{{ insumo.get_unidad_medida_display }}</span></td>
-                            <td>
-                                {% if insumo.activo %}
-                                    <span class="badge bg-success">Activo</span>
-                                {% else %}
-                                    <span class="badge bg-danger">Inactivo</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <a href="{% url 'inventario:insumo_update' insumo.id %}" class="btn btn-sm btn-outline-warning">Editar</a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">No hay insumos registrados en el catálogo maestro.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+    <!-- Contenedor principal de la tabla -->
+    <div class="inventory-card">
+        <div class="table-wrapper">
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>SKU / Código</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>U. Medida</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for insumo in insumos %}
+                    <tr>
+                        <td><span class="sku-code">{{ insumo.SKU }}</span></td>
+                        <td><strong class="product-name">{{ insumo.nombre }}</strong></td>
+                        <td>{{ insumo.categoria.nombre|default:"Sin categoría" }}</td>
+                        <td><span class="badge-unit">{{ insumo.get_unidad_medida_display }}</span></td>
+                        <td>
+                            {% if insumo.activo %}
+                                <span class="badge-status status-active">Activo</span>
+                            {% else %}
+                                <span class="badge-status status-inactive">Inactivo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'inventario:insumo_update' insumo.id %}" class="btn-action-edit">Editar</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="empty-row">No hay insumos registrados en el catálogo maestro.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

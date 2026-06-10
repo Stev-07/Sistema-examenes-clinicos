@@ -3,53 +3,56 @@
 
 {% block content %}
 <link rel="stylesheet" href="{% static 'inventario/css/inventario_funciones.css' %}">
-<div class="container mt-4">
-    <div class="d-flex justify-content-between align-items-center mb-3">
+
+<div class="inventory-container">
+    <div class="inventory-header">
         <h2>Control de Stock en Sedes</h2>
-        <a href="{% url 'inventario:movimiento_inventario_create' %}" class="btn btn-warning fw-bold">± Registrar Movimiento</a>
+        <a href="{% url 'inventario:movimiento_inventario_create' %}" class="btn-primary-action">
+            ± Registrar Movimiento
+        </a>
     </div>
 
-    
-    <div class="card shadow-sm">
-        <div class="card-body">
-            <div class="table-responsive">
-                <table class="table table-hover align-middle">
-                    <thead class="table-secondary">
-                        <tr>
-                            <th>Sede</th>
-                            <th>Insumo Clinico</th>
-                            <th>Stock Actual</th>
-                            <th>Mínimo Requerido</th>
-                            <th>Alerta Stock</th>
-                            <th>Acciones</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in items %}
-                        <tr {% if item.bajo_stock %}class="table-danger"{% endif %}>
-                            <td><strong>{{ item.inventario.sede.nombre }}</strong></td>
-                            <td>{{ item.insumo.nombre }} <small class="text-muted">({{ item.insumo.get_unidad_medida_display }})</small></td>
-                            <td><span class="fs-5 fw-bold">{{ item.cantidad }}</span></td>
-                            <td>{{ item.stock_minimo }}</td>
-                            <td>
-                                {% if item.bajo_stock %}
-                                    <span class="badge bg-danger animate-pulse">¡CRÍTICO / BAJO STOCK!</span>
-                                {% else %}
-                                    <span class="badge bg-success">Óptimo</span>
-                                {% endif %}
-                            </td>
-                            <td>
-                                <a href="{% url 'inventario:item_inventario_detail' item.id %}" class="btn btn-sm btn-info text-white">Ver Historial</a>
-                            </td>
-                        </tr>
-                        {% empty %}
-                        <tr>
-                            <td colspan="6" class="text-center text-muted">No se registran existencias de insumos en ninguna sede actualmente.</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
+    <div class="inventory-card">
+        <div class="table-wrapper">
+            <table class="inventory-table">
+                <thead>
+                    <tr>
+                        <th>Sede</th>
+                        <th>Insumo Clínico</th>
+                        <th>Stock Actual</th>
+                        <th>Mínimo Requerido</th>
+                        <th>Alerta Stock</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in items %}
+                    <tr {% if item.bajo_stock %}class="row-alert-danger"{% endif %}>
+                        <td><strong class="branch-name">{{ item.inventario.sede.nombre }}</strong></td>
+                        <td>
+                            <span class="product-name">{{ item.insumo.nombre }}</span>
+                            <span class="text-muted-inline">({{ item.insumo.get_unidad_medida_display }})</span>
+                        </td>
+                        <td><span class="stock-qty-highlight">{{ item.cantidad }}</span></td>
+                        <td><span class="stock-min-qty">{{ item.stock_minimo }}</span></td>
+                        <td>
+                            {% if item.bajo_stock %}
+                                <span class="badge-status status-critical-pulse">¡CRÍTICO / BAJO STOCK!</span>
+                            {% else %}
+                                <span class="badge-status status-optimum">Óptimo</span>
+                            {% endif %}
+                        </td>
+                        <td>
+                            <a href="{% url 'inventario:item_inventario_detail' item.id %}" class="btn-action-view">Ver Historial</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="6" class="empty-row">No se registran existencias de insumos en ninguna sede actualmente.</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
     </div>
 </div>

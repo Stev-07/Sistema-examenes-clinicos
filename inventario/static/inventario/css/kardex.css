@@ -1,0 +1,234 @@
+/* ==========================================================================
+   ESTRUCTURA BASE Y TARJETAS (KÁRDEX)
+   ========================================================================== */
+
+.inventory-container {
+    max-width: 1200px; 
+    margin: 30px auto; 
+    padding: 0 20px; 
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
+}
+
+.inventory-back-action {
+    margin-bottom: 20px; 
+}
+
+/* Diseño de cuadrícula de dos columnas */
+.kardex-layout {
+    display: grid;
+    grid-template-columns: 1fr; /* Una sola columna para que se apilen */
+    gap: 24px;
+    align-items: start;
+}
+
+/* Tarjeta Base contenedora */
+.kardex-card {
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+    width: 100%; /* Asegura que ambos recuadros usen todo el ancho */
+}
+
+/* Encabezados de tarjetas */
+.kardex-card-header {
+    padding: 16px 20px;
+    background-color: #ffffff;
+    border-bottom: 1px solid #e0e0e0;
+}
+
+.kardex-card-header h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #333333;
+}
+
+/* Cuerpo de la tarjeta de perfil */
+.kardex-card-body {
+    padding: 20px;
+}
+
+/* ==========================================================================
+   VARIACIONES DE LA FICHA DE PERFIL (IZQUIERDA)
+   ========================================================================== */
+
+
+
+.profile-card-header {
+    background-color: #f1f7fa; /* Tono clínico sutil */ 
+    border-bottom: 1px solid #d0dfe6; 
+}
+
+.profile-card-header h3 {
+    color: #007fae; /* Azul clínico */ 
+}
+
+.profile-product-title {
+    margin: 0 0 12px 0; 
+    font-size: 1.4rem;
+    color: #222222; 
+    font-weight: 600; 
+    line-height: 1.2; 
+}
+
+.profile-meta {
+    margin: 8px 0;
+    font-size: 0.9rem;
+    color: #666666; 
+}
+
+.sku-code {
+    font-family: 'Consolas', 'Courier New', monospace; 
+    background-color: #f1f3f5; 
+    color: #333333; 
+    padding: 3px 6px; 
+    border-radius: 4px; 
+    font-size: 0.85rem; 
+}
+
+.profile-divider {
+    border: 0; 
+    border-top: 1px solid #e0e0e0; 
+    margin: 18px 0; 
+}
+
+.profile-stock-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 0.95rem;
+    color: #4a5568;
+    max-width: 400px;
+}
+
+.profile-stock-qty {
+    font-size: 1.6rem;
+    font-weight: 700; 
+    color: #007fae; 
+}
+
+.profile-stock-min {
+    font-size: 1.2rem;
+    font-weight: 600; 
+    color: #ca2c43; 
+}
+
+/* ==========================================================================
+   TABLA DE MOVIMIENTOS Y REPOSITORIO (DERECHA)
+   ========================================================================== */
+
+.table-wrapper {
+    width: 100%; 
+    overflow-x: auto; 
+}
+
+.inventory-table {
+    width: 100%; 
+    border-collapse: collapse; 
+    text-align: left; 
+    font-size: 0.92rem; 
+}
+
+.inventory-table th {
+    background-color: #f5f7f8; 
+    color: #4a5568; 
+    font-weight: 600; 
+    padding: 14px 18px; 
+    border-bottom: 2px solid #e0e0e0; 
+    text-transform: uppercase; 
+    font-size: 0.78rem; 
+    letter-spacing: 0.5px; 
+}
+
+.inventory-table td {
+    padding: 14px 18px; 
+    border-bottom: 1px solid #e0e0e0; 
+    color: #4a4a4a; 
+    vertical-align: middle; 
+}
+
+.inventory-table tbody tr:hover {
+    background-color: #fcfdfd; 
+}
+
+/* Badges de Estado */
+.badge-status {
+    display: inline-block; 
+    padding: 4px 10px;
+    border-radius: 4px; 
+    font-size: 0.8rem; 
+    font-weight: 600; 
+}
+
+.status-active {
+    background-color: #e6f6ec; 
+    color: #167e43; 
+}
+
+.status-inactive {
+    background-color: #fdebee; 
+    color: #ca2c43; 
+}
+
+.status-adjustment {
+    background-color: #fef3c7; 
+    color: #92400e; 
+}
+
+.stock-qty-highlight {
+    font-size: 1.05rem; 
+    font-weight: 700; 
+    color: #222222; 
+}
+
+.user-badge {
+    color: #4a5568; 
+    font-weight: 500; 
+}
+
+.text-muted-inline {
+    font-size: 0.85rem;
+    color: #777777;
+}
+
+.empty-row {
+    text-align: center; 
+    color: #999999; 
+    padding: 40px !important;
+    font-style: italic; 
+}
+
+/* Botón Volver (Estilo heredado de tus acciones de tabla) */
+.btn-action-edit {
+    display: inline-block; 
+    color: #007fae; 
+    border: 1px solid #007fae; 
+    text-decoration: none; 
+    padding: 6px 14px;
+    border-radius: 4px; 
+    font-size: 0.88rem;
+    font-weight: 500; 
+    transition: all 0.2s ease; 
+}
+
+.btn-action-edit:hover {
+    background-color: #007fae; 
+    color: #ffffff; 
+}
+
+/* ==========================================================================
+   RESPONSIVIDAD
+   ========================================================================== */
+
+@media (max-width: 992px) {
+    .kardex-layout {
+        grid-template-columns: 1fr; /* Colapsa a una columna en tablets/móviles */ 
+        gap: 20px; 
+    }
+    .profile-card {
+        position: static; /* Pierde fijeza superior en pantallas chicas */ 
+    }
+}

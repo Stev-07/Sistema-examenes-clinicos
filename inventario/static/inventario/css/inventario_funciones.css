@@ -1,254 +1,443 @@
-/* ==========================================================================
-   ESTILOS GENERALES Y CONTENEDORES (Estilo Clínico)
-   ========================================================================== */
-body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f8f9fa;
-    color: #333333;
+/* Contenedor general del formulario */
+.inv-form {
+    background-color: #ffffff;
+    padding: 24px;
+    border-radius: 8px;
+    border: 1px solid #e0e0e0;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    max-width: 600px;
+    margin: 0 auto;
 }
 
-.inventory-container {
-    max-width: 1200px;
-    margin: 40px auto;
-    padding: 0 20px;
+/* Grupo campo + label */
+.inv-form-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 18px;
 }
 
-/* Títulos del Módulo */
-.inventory-title {
-    font-size: 1.5rem;
+/* Etiquetas */
+.inv-form-group label {
+    margin-bottom: 6px;
+    font-size: 0.95rem;
     font-weight: 600;
     color: #333333;
-    margin: 0;
 }
 
-/* ==========================================================================
-   TARJETAS Y PANELES (Basados en tus componentes)
-   ========================================================================== */
-.inv-card {
+/* Inputs y Select */
+.inv-form-control {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #d6d6d6;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    color: #333333;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
+    box-sizing: border-box;
+}
+
+/* Hover */
+.inv-form-control:hover {
+    border-color: #007fae;
+}
+
+/* Focus */
+.inv-form-control:focus {
+    outline: none;
+    border-color: #007fae;
+    box-shadow: 0 0 0 3px rgba(0, 127, 174, 0.15);
+}
+
+/* Botón principal */
+.inv-btn-primary {
+    background-color: #007fae;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+/* Hover botón */
+.inv-btn-primary:hover {
+    background-color: #006a92;
+    transform: translateY(-1px);
+}
+
+/* Active botón */
+.inv-btn-primary:active {
+    transform: translateY(0);
+}
+
+/* Errores de Django */
+.errorlist {
+    list-style: none;
+    margin: 6px 0 0 0;
+    padding: 0;
+    color: #c62828;
+    font-size: 0.85rem;
+}
+
+/* Texto de ayuda */
+.helptext {
+    margin-top: 4px;
+    font-size: 0.8rem;
+    color: #777777;
+}
+
+/* --- Contenedor General --- */
+.inventory-container {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* --- Encabezado --- */
+.inventory-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 24px;
+}
+
+.inventory-header h2 {
+    margin: 0;
+    font-size: 1.5rem;
+    color: #333333;
+    font-weight: 600;
+}
+
+/* --- Botón Principal (Azul Clínico) --- */
+.btn-primary-action {
+    display: inline-flex;
+    align-items: center;
+    background-color: #007fae;
+    color: #ffffff;
+    text-decoration: none;
+    padding: 10px 18px;
+    border-radius: 6px;
+    font-size: 0.9rem;
+    font-weight: 600;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+}
+
+.btn-primary-action:hover {
+    background-color: #00668c; /* Azul un poco más oscuro */
+    transform: translateY(-1px);
+}
+
+/* --- Tarjeta Contenedora de la Tabla --- */
+.inventory-card {
     background-color: #ffffff;
     border: 1px solid #e0e0e0;
     border-radius: 6px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-    margin-bottom: 25px;
-    overflow: hidden;
+    overflow: hidden; /* Mantiene los bordes redondeados con la tabla dentro */
 }
 
-.inv-card-header {
-    background-color: #ffffff;
-    border-bottom: 1px solid #e0e0e0;
-    padding: 16px 24px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.inv-card-header h4, .inv-card-header h5 {
-    margin: 0;
-    font-size: 1.1rem;
-    font-weight: 600;
-    color: #333333;
-}
-
-/* Variante para formularios o alertas (Acento en Azul Quirúrgico) */
-.inv-card-primary {
-    border-top: 4px solid #007fae;
-}
-
-.inv-card-body {
-    padding: 24px;
-}
-
-/* ==========================================================================
-   TABLAS DE INVENTARIO Y KÁRDEX
-   ========================================================================== */
-.inv-table-responsive {
+.table-wrapper {
     width: 100%;
-    overflow-x: auto;
+    overflow-x: auto; /* Responsivo si la pantalla es muy chica */
 }
 
-.inv-table {
+/* --- Tabla --- */
+.inventory-table {
     width: 100%;
     border-collapse: collapse;
     text-align: left;
     font-size: 0.92rem;
 }
 
-.inv-table th {
-    background-color: #f4f6f8;
-    color: #666666;
+/* Encabezados con un tono gris profesional, no negro puro */
+.inventory-table th {
+    background-color: #f5f7f8;
+    color: #4a5568;
     font-weight: 600;
-    padding: 12px 16px;
+    padding: 14px 18px;
     border-bottom: 2px solid #e0e0e0;
     text-transform: uppercase;
-    font-size: 0.75rem;
+    font-size: 0.78rem;
     letter-spacing: 0.5px;
 }
 
-.inv-table td {
-    padding: 14px 16px;
-    border-bottom: 1px solid #eeeeee;
-    color: #444444;
+.inventory-table td {
+    padding: 14px 18px;
+    border-bottom: 1px solid #e0e0e0;
+    color: #4a4a4a;
+    vertical-align: middle;
 }
 
-.inv-table tbody tr:hover {
-    background-color: #fcfdfd; /* El mismo blanco azulado de tu hover */
+/* Efecto Hover en las filas */
+.inventory-table tbody tr:hover {
+    background-color: #fcfdfd; /* El mismo blanco azulado de tu dashboard */
 }
 
-/* Código SKU */
+/* --- Elementos de Celda Específicos --- */
+.product-name {
+    color: #222222;
+    font-weight: 600;
+}
+
 .sku-code {
-    font-family: 'Consolas', monospace;
+    font-family: 'Consolas', 'Courier New', monospace;
     background-color: #f1f3f5;
-    padding: 2px 6px;
+    color: #333333;
+    padding: 3px 6px;
     border-radius: 4px;
-    color: #007fae;
     font-size: 0.85rem;
 }
 
-/* ==========================================================================
-   BOTONES Y ACCIONES
-   ========================================================================== */
-.btn-inv {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: 8px 16px;
-    font-size: 0.88rem;
-    font-weight: 600;
-    border-radius: 6px;
-    text-decoration: none;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    border: 1px solid transparent;
-}
-
-.btn-inv-primary {
-    background-color: #007fae;
-    color: #ffffff;
-}
-
-.btn-inv-primary:hover {
-    background-color: #00668c;
-    transform: translateY(-1px);
-}
-
-.btn-inv-secondary {
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    color: #666666;
-}
-
-.btn-inv-secondary:hover {
-    background-color: #f5f5f5;
-    color: #333333;
-}
-
-.btn-inv-outline {
-    background-color: transparent;
-    border: 1px solid #007fae;
-    color: #007fae;
-}
-
-.btn-inv-outline:hover {
-    background-color: #007fae;
-    color: #ffffff;
-}
-
-/* ==========================================================================
-   FORMULARIOS CLÍNICOS
-   ========================================================================== */
-.inv-form-group {
-    margin-bottom: 20px;
-}
-
-.inv-form-group label {
-    display: block;
-    font-size: 0.88rem;
-    font-weight: 600;
-    color: #333333;
-    margin-bottom: 6px;
-}
-
-/* Inputs adaptados a tus cajas de texto */
-.inv-form-control {
-    width: 100%;
-    padding: 10px 14px;
-    font-size: 0.9rem;
-    color: #333333;
-    background-color: #ffffff;
-    border: 1px solid #cccccc;
-    border-radius: 6px;
-    box-sizing: border-box;
-    transition: border-color 0.15s ease, box-shadow 0.15s ease;
-}
-
-.inv-form-control:focus {
-    border-color: #007fae;
-    outline: 0;
-    box-shadow: 0 0 0 3px rgba(0, 127, 174, 0.15);
-}
-
-/* Checkbox estilizado */
-.inv-checkbox-label {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    cursor: pointer;
-    font-size: 0.9rem;
-}
-
-.inv-checkbox {
-    width: 16px;
-    height: 16px;
-    accent-color: #007fae;
-}
-
-/* Mensajes de error en inputs */
-.inv-error-text {
-    color: #d9383a;
+/* --- Badges / Etiquetas --- */
+.badge-unit {
+    background-color: #e2e8f0;
+    color: #4a5568;
+    padding: 4px 8px;
+    border-radius: 4px;
     font-size: 0.8rem;
-    margin-top: 4px;
     font-weight: 500;
 }
 
-/* ==========================================================================
-   BADGES Y ALERTAS DE STOCK (Estados Críticos)
-   ========================================================================== */
-.inv-badge {
+.badge-status {
     display: inline-block;
     padding: 4px 8px;
-    font-size: 0.75rem;
-    font-weight: 600;
     border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+/* Colores suaves para los estados, evitando tonos chillantes */
+.status-active {
+    background-color: #e6f6ec;
+    color: #167e43;
+}
+
+.status-inactive {
+    background-color: #fdebee;
+    color: #ca2c43;
+}
+
+/* --- Botón de Acción (Editar) --- */
+.btn-action-edit {
+    display: inline-block;
+    color: #007fae;
+    border: 1px solid #007fae;
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-action-edit:hover {
+    background-color: #007fae;
+    color: #ffffff;
+}
+
+/* --- Fila Vacía --- */
+.empty-row {
     text-align: center;
+    color: #999999;
+    padding: 30px !important;
+    font-style: italic;
 }
 
-.inv-badge-success { background-color: #e6f6ec; color: #15803d; }
-.inv-badge-secondary { background-color: #f1f3f5; color: #555555; }
-.inv-badge-danger { background-color: #fde8e8; color: #9b1c1c; }
-.inv-badge-warning { background-color: #fef3c7; color: #92400e; }
-
-/* Fila de la tabla cuando hay desabasto (Bajo Stock) */
-.tr-danger {
-    background-color: #fff5f5 !important;
+/* --- Ajuste Responsivo --- */
+@media (max-width: 768px) {
+    .inventory-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+    
+    .btn-primary-action {
+        width: 100%;
+        justify-content: center;
+    }
 }
-.tr-danger td {
-    color: #b91c1c;
-    border-bottom: 1px solid #fecaca;
+
+/* ==========================================================================
+   COMPONENTES ESPECÍFICOS PARA CONTROL DE STOCK EN SEDES
+   ========================================================================== */
+
+/* --- Texto secundario integrado --- */
+.text-muted-inline {
+    font-size: 0.8rem;
+    color: #888888;
+    margin-left: 4px;
 }
 
-/* Alerta de validaciones generales */
-.inv-alert-danger {
-    background-color: #fde8e8;
-    border: 1px solid #fecaca;
-    color: #9b1c1c;
-    padding: 12px 16px;
-    border-radius: 6px;
-    font-size: 0.88rem;
+/* --- Resaltado de cantidades numéricas --- */
+.stock-qty-highlight {
+    font-size: 1.05rem;
+    font-weight: 700;
+    color: #222222;
+}
+
+.stock-min-qty {
+    color: #666666;
+    font-weight: 500;
+}
+
+.branch-name {
+    color: #333333;
+    font-weight: 600;
+}
+
+/* --- Variación de Fila con Alerta de Stock Bajo --- */
+.inventory-table tbody tr.row-alert-danger {
+    background-color: #fff5f5; /* Un rojo/rosa extremadamente suave, no molesto */
+}
+
+/* Evita que el hover de tu CSS original opaque la alerta por completo */
+.inventory-table tbody tr.row-alert-danger:hover {
+    background-color: #ffebeb; 
+}
+
+/* --- Estados de Stock --- */
+.status-optimum {
+    background-color: #e6f6ec;
+    color: #167e43;
+}
+
+/* Estado crítico con animación sutil de pulso en el fondo */
+.status-critical-pulse {
+    background-color: #fdebee;
+    color: #ca2c43;
+    animation: pulse-bg 2s infinite ease-in-out;
+}
+
+/* --- Botón de Acción (Ver Historial) --- */
+.btn-action-view {
+    display: inline-block;
+    color: #007fae;
+    background-color: transparent;
+    border: 1px solid #007fae;
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 4px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.btn-action-view:hover {
+    background-color: #007fae;
+    color: #ffffff;
+}
+
+/* --- Animación de Alerta (Pulse) --- */
+@keyframes pulse-bg {
+    0% {
+        box-shadow: 0 0 0 0 rgba(202, 44, 67, 0.2);
+    }
+    70% {
+        box-shadow: 0 0 0 6px rgba(202, 44, 67, 0);
+    }
+    100% {
+        box-shadow: 0 0 0 0 rgba(202, 44, 67, 0);
+    }
+}
+
+/* ==========================================================================
+   SECCIÓN: VISTA KÁRDEX / HISTORIAL DE MOVIMIENTOS
+   ========================================================================== */
+
+/* --- Espaciado del botón regresar --- */
+.inventory-back-action {
     margin-bottom: 20px;
 }
 
-.inv-help-text {
-    font-size: 0.8rem;
-    color: #999999;
-    margin-top: 4px;
+/* --- Layout en Cuadrícula (1/3 Ficha de Estado, 2/3 Tabla) --- */
+.kardex-layout {
+    display: grid;
+    grid-template-columns: 320px 1fr; /* Columna fija a la izq, el resto a la der */
+    gap: 24px;
+    align-items: start;
+}
+
+/* --- Personalización de Ficha de Perfil Lateral --- */
+.profile-card {
+    position: sticky;
+    top: 20px; /* Se queda fija si la tabla es extremadamente larga */
+}
+
+.profile-card-header {
+    background-color: #f1f7fa; /* Un tono sutilmente azulado */
+    border-bottom: 1px solid #d0dfe6;
+}
+
+.profile-card-header h3 {
+    color: #007fae; /* Título en azul clínico */
+}
+
+.profile-product-title {
+    margin: 0 0 10px 0;
+    font-size: 1.35rem;
+    color: #222222;
+    font-weight: 600;
+    line-height: 1.2;
+}
+
+.profile-meta {
+    margin: 6px 0;
+    font-size: 0.88rem;
+    color: #666666;
+}
+
+.profile-divider {
+    border: 0;
+    border-top: 1px solid #e0e0e0;
+    margin: 18px 0;
+}
+
+/* --- Filas de Conteo --- */
+.profile-stock-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 14px;
+    font-size: 0.92rem;
+    color: #4a5568;
+}
+
+.profile-stock-qty {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #007fae; /* Cantidad actual resalta en azul clínico */
+}
+
+.profile-stock-min {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: #ca2c43; /* Mínimo requerido en rojo clínico */
+}
+
+/* --- Celda específica del Responsable --- */
+.user-badge {
+    color: #4a5568;
+    font-weight: 500;
+}
+
+/* --- Estado Extra: Ajustes de Inventario --- */
+.status-adjustment {
+    background-color: #fef3c7; /* Amarillo pastel sutil */
+    color: #92400e;
+}
+
+/* --- Responsivo para el Layout --- */
+@media (max-width: 992px) {
+    .kardex-layout {
+        grid-template-columns: 1fr; /* Se apilan verticalmente en pantallas medianas o chicas */
+        gap: 20px;
+    }
+    
+    .profile-card {
+        position: static; /* Pierde el sticky en móviles */
+    }
 }

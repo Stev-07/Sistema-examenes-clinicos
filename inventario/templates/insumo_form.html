@@ -1,38 +1,52 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-    <link rel="stylesheet" href="{% static 'inventario/css/inventario_funciones.css' %}">
-<div class="container mt-5">
-    <div class="row justify-content-center">
-        <div class="col-md-8">
-            <div class="card shadow">
-                <div class="card-header bg-primary text-white">
-                    <h4 class="mb-0">{% if form.instance.pk %}Editar Insumo{% else %}Registrar Nuevo Insumo{% endif %}</h4>
-                </div>
-                <div class="card-body">
-                    <form method="post" novalidate>
-                        {% csrf_token %}
-                        
-                        {% for field in form %}
-                            <div class="mb-3">
-                                <label class="form-label font-weight-bold">{{ field.label }}</label>
-                                {{ field }}
-                                {% if field.help_text %}
-                                    <small class="form-text text-muted">{{ field.help_text }}</small>
-                                {% endif %}
-                                {% for error in field.errors %}
-                                    <div class="text-danger small mt-1">{{ error }}</div>
-                                {% endfor %}
-                            </div>
-                        {% endfor %}
+<link rel="stylesheet" href="{% static 'inventario/css/inventario_forms.css' %}">
 
-                        <div class="d-flex justify-content-end gap-2 mt-4">
-                            <a href="{% url 'inventario:insumo_list' %}" class="btn btn-secondary">Cancelar</a>
-                            <button type="submit" class="btn btn-success">Guardar Insumo</button>
+<div class="form-container-wrapper">
+    <div class="form-card">
+        <div class="form-card-header">
+            <h3>{% if form.instance.pk %}Editar Insumo{% else %}Registrar Nuevo Insumo{% endif %}</h3>
+        </div>
+        
+        <div class="form-card-body">
+            <form method="post" novalidate>
+                {% csrf_token %}
+                
+                {% for field in form %}
+                    {% if field.field.widget.input_type == "checkbox" %}
+                        <div class="form-group-checkbox">
+                            {{ field }}
+                            <label for="{{ field.id_for_label }}" class="form-label-checkbox">
+                                {{ field.label }}
+                            </label>
+                            {% if field.help_text %}
+                                <span class="form-help-text">{{ field.help_text }}</span>
+                            {% endif %}
                         </div>
-                    </form>
+                    {% else %}
+                        <div class="form-group">
+                            <label for="{{ field.id_for_label }}" class="form-label">
+                                {{ field.label }}
+                            </label>
+                            {{ field }}
+                            
+                            {% if field.help_text %}
+                                <span class="form-help-text">{{ field.help_text }}</span>
+                            {% endif %}
+                            
+                            {% for error in field.errors %}
+                                <span class="form-error-text">{{ error }}</span>
+                            {% endfor %}
+                        </div>
+                    {% endif %}
+                {% endfor %}
+
+                <div class="form-actions">
+                    <a href="{% url 'inventario:insumo_list' %}" class="btn-secondary-action">Cancelar</a>
+                    <button type="submit" class="btn-save-action">Guardar Insumo</button>
                 </div>
-            </div>
+            </form>
         </div>
     </div>
 </div>

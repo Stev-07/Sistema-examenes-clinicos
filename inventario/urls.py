@@ -5,7 +5,7 @@ from .views import *
 app_name = 'inventario'
 
 urlpatterns = [
-    path('', inventory_home, name='inventario_home'),
+    path('', inventory_home, name='inventario_dashboard'),
     # Catálogo de Insumos
     path('insumos/', InsumoListView.as_view(), name='insumo_list'),
     path('insumos/nuevo/', InsumoCreateView.as_view(), name='insumo_create'),
