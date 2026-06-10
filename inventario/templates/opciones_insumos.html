@@ -1,0 +1,47 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Opciones de Insumos{% endtitle %}
+{% block head %}
+    <link rel="stylesheet" href="{% static 'inventario/css/inventario_funciones.css' %}">
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/home_inventario.css' %}">
+<div class="dashboard-grid">
+
+    <a href="#" class="module-card">
+        <div class="module-info">
+            <h3>Registrar</h3>
+            <p>Registrar insumo</p>
+        </div>
+
+        <div class="module-icon">
+            <i class="fas fa-user-injured"></i>
+        </div>
+    </a>
+
+    <a href="#" class="module-card">
+        <div class="module-info">
+            <h3>Stock</h3>
+            <p>Control de inventario</p>
+        </div>
+
+        <div class="module-icon">
+            <i class="fas fa-vials"></i>
+        </div>
+    </a>
+
+    <a href="#" class="module-card">
+        <div class="module-info">
+            <h3>Movimientos</h3>
+            <p>Registro de movimientos</p>
+        </div>
+
+        <div class="module-icon">
+            <i class="fas fa-boxes"></i>
+        </div>
+    </a>
+
+</div>
+{% endblock %}

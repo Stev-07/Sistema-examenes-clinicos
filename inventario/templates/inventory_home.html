@@ -2,8 +2,51 @@
 {% load static %}
 
 {% block content %}
-<link rel="stylesheet" href="{% static 'inventario/inventory.css' %}">
-    <h1>Inventario</h1>
-    <p>Bienvenido al módulo de inventario.</p>
-    <p>LABORATORIO CLINICO:     </p>
+<link rel="stylesheet" href="{% static 'inventario/css/home_inventario.css' %}">
+<div class="dashboard-grid">
+
+    <a href="{% url 'inventario:insumo_list' %}" class="module-card">
+        <div class="module-info">
+            <h3>INSUMOS</h3>
+            <p>lista de insumos</p>
+        </div>
+
+        <div class="module-icon">
+            <i class="fas fa-user-injured"></i>
+        </div>
+    </a>
+
+    <a href="{% url 'inventario:item_inventario_list' %}" class="module-card">
+        <div class="module-info">
+            <h3>Stock</h3>
+            <p>Control de inventario</p>
+        </div>
+
+        <div class="module-icon">
+            <i class="fas fa-vials"></i>
+        </div>
+    </a>
+
+    <a href="{% url 'inventario:movimiento_inventario_create' %}" class="module-card">
+        <div class="module-info">
+            <h3>Movimientos</h3>
+            <p>Realizar movimientos</p>
+        </div>
+
+        <div class="module-icon">
+            <i class="fas fa-boxes"></i>
+        </div>
+    </a>
+        <a href="{% url 'inventario:item_inventario_create' %}" class="module-card">
+        <div class="module-info">
+            <h3>Configuración inicial</h3>
+            <p>Asignar inventario minimo</p>
+        </div>
+
+        <div class="module-icon">
+            <i class="fas fa-boxes"></i>
+        </div>
+    </a>
+
+</div>
 {% endblock %}

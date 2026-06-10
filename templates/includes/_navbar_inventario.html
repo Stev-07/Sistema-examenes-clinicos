@@ -20,8 +20,30 @@
         <ul>
             <li>
                 <a href="{% url 'usuarios:inventario-dashboard' %}" class="nav-link">                  
-                    <span class="icon">📦</span>{#- CAMBIAR LUEGO POR ICONOS DE FONTAWESOME#}
-                    <span class="text">Inventario</span>
+                    <div class="module-icon">
+                        <i class="fas fa-user-injured"></i>
+                    </div>
+                    <span class="text">Insumos</span>
+                </a>
+            </li>
+        </ul>
+                <ul>
+            <li>
+                <a href="{% url 'usuarios:inventario-dashboard' %}" class="nav-link">                  
+                <div class="module-icon">
+                    <i class="fas fa-vials"></i>
+                </div>
+                    <span class="text">Stock</span>
+                </a>
+            </li>
+        </ul>
+                <ul>
+            <li>
+                <a href="{% url 'usuarios:inventario-dashboard' %}" class="nav-link">                  
+                    <div class="module-icon">
+                        <i class="fas fa-boxes"></i>
+                    </div>
+                    <span class="text">Movimientos</span>
                 </a>
             </li>
         </ul>

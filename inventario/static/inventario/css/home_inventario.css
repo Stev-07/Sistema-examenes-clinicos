@@ -1,0 +1,73 @@
+/* Contenedor principal en cuadrícula (2 columnas) */
+.dashboard-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Crea dos columnas iguales */
+    gap: 20px; /* Espacio entre las tarjetas */
+    padding: 20px;
+    max-width: 1200px;
+    margin: 0 auto;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Estilo de la tarjeta (Botón) */
+.module-card {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #ffffff;
+    border: 1px solid #e0e0e0;
+    border-radius: 6px; /* Bordes ligeramente redondeados como la imagen */
+    padding: 20px 24px;
+    text-decoration: none; /* Quita el subrayado del enlace */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05); /* Sombra suave inferior */
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efecto al pasar el mouse (Hover) */
+.module-card:hover {
+    transform: translateY(-2px); /* Un pequeño salto sutil */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    background-color: #fcfdfd; /* Un blanco sutilmente azulado al pasar el cursor */
+}
+
+/* Bloque de texto (Izquierda) */
+.module-info {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+}
+
+/* Título principal */
+.module-info h3 {
+    margin: 0;
+    font-size: 1.15rem;
+    color: #333333;
+    font-weight: 600;
+}
+
+/* Subtexto descriptivo */
+.module-info p {
+    margin: 0;
+    font-size: 0.85rem;
+    color: #999999; /* Gris claro idéntico al de tu captura */
+}
+
+/* Contenedor del ícono (Derecha) */
+.module-icon {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #007fae; /* Azul clínico / quirúrgico */
+    color: #ffffff; /* Ícono blanco */
+    width: 42px;
+    height: 42px;
+    border-radius: 6px; /* Bordes redondeados del contenedor del ícono */
+    font-size: 1.2rem;
+}
+
+/* Responsivo: Si la pantalla es pequeña (móviles), se vuelve una sola columna */
+@media (max-width: 768px) {
+    .dashboard-grid {
+        grid-template-columns: 1fr;
+    }
+}
