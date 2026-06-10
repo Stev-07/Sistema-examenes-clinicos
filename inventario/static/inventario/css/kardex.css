@@ -57,12 +57,12 @@
 
 
 .profile-card-header {
-    background-color: #f1f7fa; /* Tono clínico sutil */ 
+    background-color: #f1f7fa; 
     border-bottom: 1px solid #d0dfe6; 
 }
 
 .profile-card-header h3 {
-    color: #007fae; /* Azul clínico */ 
+    color: #007fae; 
 }
 
 .profile-product-title {

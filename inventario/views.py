@@ -4,8 +4,10 @@ from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from .models import *
+from usuarios.services.validacion_grupo import grupos_requeridos
 # Create your views here.
 
+@grupos_requeridos('Almacenistas')
 def inventory_home(request):
     return render(request, 'inventory_home.html')
 
@@ -17,9 +19,9 @@ from .models import Insumo, ItemInventario, MovimientoInventario, CategoriaInsum
 from .forms import InsumoForm, ItemInventarioForm, MovimientoInventarioForm, CategoriaInsumoForm
 
 
-# ==========================================
-# 1. GESTIÓN DEL CATÁLOGO DE INSUMOS
-# ==========================================
+
+#GESTIÓN DEL CATÁLOGO DE INSUMOS
+#===============================
 
 class InsumoListView(LoginRequiredMixin, ListView):
     """Lista todo el catálogo maestro de insumos clínicos."""
@@ -44,9 +46,9 @@ class InsumoUpdateView(LoginRequiredMixin, UpdateView):
     template_name = 'insumo_form.html'
     success_url = reverse_lazy('inventario:insumo_list')
 
-# ==========================================
-# 2. CONTROL DE STOCK POR SEDE (HÍBRIDO / SEGURO)
-# ==========================================
+
+# CONTROL DE STOCK POR SEDE
+# ============================
 
 class ItemInventarioListView(LoginRequiredMixin, ListView):
     """Muestra el stock. Los empleados solo ven su sede; los admins/bodegueros ven todo."""
@@ -100,9 +102,9 @@ class ItemInventarioDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-# ==========================================
+
 # 3. TRANSACCIONES Y MOVIMIENTOS
-# ==========================================
+# ==============================
 
 class MovimientoInventarioCreateView(LoginRequiredMixin, CreateView):
     model = MovimientoInventario
