@@ -50,7 +50,7 @@ def login_view(request):
 @login_required
 def laboratorista_dashboard(request):
     print("el usuario se ejecuta correctamente")
-    return render(request, './prueba.html')
+    return render(request, 'laboratorio_dashboard.html')
 
 def recepcionista_dashboard(request):
     return render(request, './prueba.html')

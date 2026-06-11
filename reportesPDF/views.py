@@ -21,9 +21,9 @@ def get_datos_clinica(orden_id):
 
     return ""
 
-
-def generar_reporte_completo_pdf(request, orden_id):
-    orden = get_object_or_404(Orden, id=orden_id)
+#Función para generar el buffer
+def generar_reporte_completo_pdf(orden):
+    #orden = get_object_or_404(Orden, id=orden_id)
     buffer = io.BytesIO()
     
     #el topMargin a 180
@@ -113,6 +113,15 @@ def generar_reporte_completo_pdf(request, orden_id):
     doc.build(story, onFirstPage=encorporar_decoracion, onLaterPages=encorporar_decoracion)
     
     buffer.seek(0)
+    #response = HttpResponse(buffer, content_type='application/pdf')
+    #response['Content-Disposition'] = f'inline; filename="Reporte_Orden_{orden.correlativo}.pdf"'
+    return buffer
+
+#Función para generar el PDF
+def generar_pdf(request, orden_id):
+    """Vista que usa generar_pdf_buffer y retorna la respuesta HTTP"""
+    orden = get_object_or_404(Orden, id=orden_id)
+    buffer = generar_reporte_completo_pdf(orden)
     response = HttpResponse(buffer, content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename="Reporte_Orden_{orden.correlativo}.pdf"'
     return response
