@@ -69,7 +69,6 @@ def previsualizar_pago(request):
             'examenes_ids': request.POST.getlist('examenes'),
             'nombre_doctor': doctor_form.cleaned_data['nombreD'],
             'jvpm': doctor_form.cleaned_data['jvpm'],
-            'encabezado': orden_form.cleaned_data['encabezado'],
             'correlativo': orden_form.cleaned_data['correlativo'],
             'fechaEmision': str(orden_form.cleaned_data['fechaEmision']),
             'total': str(orden_form.cleaned_data['total']),
@@ -121,7 +120,6 @@ def confirmar_pago(request):
         orden = Orden.objects.create(
             expediente=expediente,
             doctor=doctor,
-            encabezado=orden_pendiente['encabezado'],
             correlativo=orden_pendiente['correlativo'],
             fechaEmision=orden_pendiente['fechaEmision'],
         )
@@ -134,11 +132,11 @@ def confirmar_pago(request):
                 procesado_por=request.user
         )
 
-            Pagos.objects.create(
-            orden=orden,
-            monto=orden_pendiente['total'],
-            tipo_pago=tipo_pago,
-            completado=True
+        Pagos.objects.create(
+        orden=orden,
+        monto=orden_pendiente['total'],
+        tipo_pago=tipo_pago,
+        completado=True
         )
 
         del request.session['orden_pendiente']

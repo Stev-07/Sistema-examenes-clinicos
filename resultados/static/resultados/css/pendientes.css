@@ -1,0 +1,128 @@
+.contenedor-principal {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 22px 30px;
+}
+
+.encabezado {
+    margin-bottom: 18px;
+}
+
+.encabezado h1 {
+    color: #0072bc;
+    font-size: 24px;
+    margin-bottom: 5px;
+}
+
+.encabezado p {
+    color: #6b7280;
+    font-size: 14px;
+}
+
+/* BUSCADOR */
+.busqueda-contenedor {
+    margin-bottom: 22px;
+}
+
+.busqueda-contenedor form {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    max-width: 430px;
+}
+
+.busqueda-contenedor input {
+    flex: 1;
+    border: none;
+    border-bottom: 2px solid #a8a8a8;
+    background: transparent;
+    padding: 8px 6px;
+    font-size: 14px;
+    outline: none;
+}
+
+.busqueda-contenedor input:focus {
+    border-bottom-color: #0072bc;
+}
+
+.busqueda-contenedor button {
+    width: 95px;
+    height: 36px;
+    background: #00689d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.busqueda-contenedor button:hover {
+    background: #00557f;
+}
+
+/* TABLA */
+.tabla-contenedor {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,.06);
+}
+
+.tabla-pendientes {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.tabla-pendientes thead {
+    background: #00689d !important;
+}
+
+.tabla-pendientes thead th {
+    background: #00689d !important;
+    color: white !important;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.tabla-pendientes td {
+    padding: 7px 12px;
+    border-bottom: 1px solid #d7e7ee;
+    color: #374151;
+    vertical-align: middle;
+    line-height: 1.25;
+}
+
+.tabla-pendientes tbody tr:nth-child(even) {
+    background: #f4fbfd;
+}
+
+.tabla-pendientes tbody tr:hover {
+    background: #eaf7fb;
+}
+
+/* BOTONES / ESTADOS */
+.btn-ver {
+    display: inline-block;
+    background: #00689d;
+    color: white;
+    text-decoration: none;
+    padding: 5px 12px;
+    border-radius: 6px;
+    font-size: 12px;
+}
+
+.btn-ver:hover {
+    background: #00557f;
+}
+
+.badge-completado {
+    display: inline-block;
+    background: #eaf7fb;
+    color: #00689d;
+    padding: 4px 10px;
+    border-radius: 16px;
+    font-size: 12px;
+    font-weight: 600;
+}

@@ -65,7 +65,9 @@ INSTALLED_APPS = [
     'examenes',
     'reportesPDF',
     'inventario',
+    'resultados',
 ]
+
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -105,7 +107,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sistema_clinico',
         'USER': 'postgres',
-        'PASSWORD': 'rs22042',
+        'PASSWORD': 'yo2003',
         'HOST': 'localhost',
         'PORT': '5432',
     }

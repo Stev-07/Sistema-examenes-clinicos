@@ -1,0 +1,36 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Laboratorio{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'resultados/css/laboratorio_dashboard.css' %}">
+
+<div class="dashboard-lab">
+
+    <a href="{% url 'resultados:solicitudes_pendientes' %}" class="dashboard-card">
+        <div>
+            <h2>Solicitudes</h2>
+            <p>Exámenes pendientes de procesar</p>
+        </div>
+
+        <div class="card-icon">
+            <i class="fa-solid fa-clipboard-list"></i>
+        </div>
+    </a>
+
+    <a href="{% url 'resultados:resultados_completados' %}" class="dashboard-card">
+        <div>
+            <h2>Resultados</h2>
+            <p>Captura y revisión de resultados</p>
+        </div>
+
+        <div class="card-icon">
+            <i class="fa-solid fa-flask-vial"></i>
+        </div>
+    </a>
+
+</div>
+
+{% endblock %}

@@ -14,11 +14,6 @@ class DoctorForm(forms.Form):
     )
 
 class OrdenForm(forms.Form):
-    encabezado = forms.CharField(
-        max_length=100,
-        label='Encabezado',
-        widget=forms.TextInput(attrs={'placeholder': 'Encabezado de la orden'})
-    )
     correlativo = forms.IntegerField(
         label='Correlativo',
         validators=[

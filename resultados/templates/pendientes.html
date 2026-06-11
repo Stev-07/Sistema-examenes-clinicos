@@ -1,0 +1,95 @@
+    {% extends 'base.html' %}
+    {% load static %}
+
+    {% block title %}
+    Solicitudes pendientes
+    {% endblock %}
+
+    {% block head %}
+    <link rel="stylesheet"
+        href="{% static 'resultados/capturar_resultado.css' %}">
+
+    <link rel="stylesheet"
+        href="{% static 'resultados/css/pendientes.css' %}">
+    {% endblock %}
+
+    {% block content %}
+
+        <div class="contenedor-principal">
+
+            <div class="encabezado">
+                <h1>Solicitudes pendientes</h1>
+                <p>Exámenes pendientes de procesar</p>
+            </div>
+
+            <div class="busqueda-contenedor">
+
+            <form method="GET">
+
+                <input
+                    type="text"
+                    name="buscar"
+                    placeholder="Buscar por DUI"
+                    value="{{ request.GET.buscar }}"
+                >
+
+                <button type="submit">
+                    Buscar
+                </button>
+
+            </form>
+
+        </div>
+
+        <div class="tabla-contenedor">
+
+            <table class="tabla-pendientes">
+
+            <thead>
+                <tr>
+                    <th>DUI</th>
+                    <th>Paciente</th>
+                    <th>Expediente</th>
+                    <th>Fecha emisión</th>
+                    <th>Examen</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+
+            <tbody>
+            {% for grupo in ordenes %}
+                {% for examen in grupo.examenes %}
+                <tr>
+                    {% if forloop.first %}
+                        <td rowspan="{{ grupo.examenes|length }}">{{ grupo.orden.expediente.cliente.n_dui }}</td>
+                        <td rowspan="{{ grupo.examenes|length }}">
+                            {{ grupo.orden.expediente.cliente.usuario.first_name }}
+                            {{ grupo.orden.expediente.cliente.usuario.last_name }}
+                        </td>
+                        <td rowspan="{{ grupo.examenes|length }}">{{ grupo.orden.expediente.numero_expediente }}</td>
+                        <td rowspan="{{ grupo.examenes|length }}">{{ grupo.orden.fechaEmision }}</td>
+                    {% endif %}
+                    <td>{{ examen.tipo_examen.nombre }}</td>
+                    <td>
+                        {% if examen.estado == 'pendiente' %}
+                            <a href="{% url 'resultados:capturar_resultado' examen.id %}" class="btn-ver">Ver</a>
+                        {% elif examen.estado == 'completado' %}
+                            <span class="badge-completado">✅ Completado</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            {% empty %}
+                <tr>
+                    <td colspan="6">No existen solicitudes pendientes.</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+    {% endblock %}

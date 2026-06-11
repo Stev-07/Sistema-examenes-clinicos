@@ -10,18 +10,24 @@
     
     <nav class="sidebar-nav">
         <ul>
-            <li>               
-                <a href="#" class="nav-link">
+            <li>
+                <a href="{% url 'usuarios:lab-dashboard' %}" class="nav-link">
                     <i class="fa-solid fa-house"></i>
                     <span class="text">Inicio</span>
                 </a>
             </li>
-        </ul>
-        <ul>
+
             <li>
-                <a href="{% url 'usuarios:lab-dashboard' %}" class="nav-link">
-                    <i class="fa-solid fa-box-archive"></i>
-                    <span class="text">laboratorio</span>
+                <a href="{% url 'resultados:solicitudes_pendientes' %}" class="nav-link">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span class="text">Solicitudes</span>
+                </a>
+            </li>
+
+            <li>
+                <a href="{% url 'resultados:resultados_completados' %}" class="nav-link">
+                    <i class="fa-solid fa-flask-vial"></i>
+                    <span class="text">Resultados</span>
                 </a>
             </li>
         </ul>
