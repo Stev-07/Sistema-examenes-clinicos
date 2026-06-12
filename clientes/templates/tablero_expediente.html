@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Mi Historial de Exámenes{% endblock %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'clientes/tablero_paciente.css' %}">
+{% endblock %}
+
+{% block content %}
+<div class="contenedor-principal">
+    <div class="encabezado">
+        <h1>Mis Exámenes Realizados</h1>
+        <p>Consulta y descarga los resultados de tus órdenes médicas.</p>
+    </div>
+
+    <div class="busqueda-contenedor">
+        <form method="GET" class="form-filtros">
+            <div class="grupo-filtro">
+                <label>N° Orden:</label>
+                <input type="text" name="orden" placeholder="Ej: 1024" value="{{ filtros.orden|default:'' }}">
+            </div>
+            <div class="grupo-filtro">
+                <label>Médico:</label>
+                <input type="text" name="medico" placeholder="Nombre del médico" value="{{ filtros.medico|default:'' }}">
+            </div>
+            <div class="grupo-filtro">
+                <label>Desde:</label>
+                <input type="date" name="fecha_inicio" value="{{ filtros.fecha_inicio|default:'' }}">
+            </div>
+            <div class="grupo-filtro">
+                <label>Hasta:</label>
+                <input type="date" name="fecha_fin" value="{{ filtros.fecha_fin|default:'' }}">
+            </div>
+            <div class="botones-filtro">
+                <button type="submit" class="btn-buscar">Filtrar</button>
+                <a href="{% url 'pacientes:dashboard_paciente' %}" class="btn-limpiar">Limpiar</a>
+            </div>
+        </form>
+    </div>
+
+    <div class="tabla-contenedor">
+        <table class="tabla-pendientes">
+            <thead>
+                <tr>
+                    <th>Sede / Laboratorio Evaluador</th>
+                    <th>Exámenes Practicados</th>
+                    <th style="text-align: center;">Acciones por Solicitud</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for grupo in ordenes %}
+                    <tr style="background-color: #f1f2f6; border-top: 3px solid #ced6e0;">
+                        <td colspan="3" style="padding: 12px; font-size: 1.05em;">
+                            <span style="color: #2f3542; font-weight: bold;">📋 Orden Médica #{{ grupo.orden.correlativo }}</span>
+                            <span style="margin: 0 10px; color: #a4b0be;">|</span>
+                            <strong>Emisión:</strong> {{ grupo.orden.fechaEmision|date:"d/m/Y" }}
+                            <span style="margin: 0 10px; color: #a4b0be;">|</span>
+                            <strong>Solicitado por:</strong> Dr. {{ grupo.orden.doctor.nombreD }}
+                        </td>
+                    </tr>
+
+                    {% for lab_id, lab_data in grupo.laboratorios.items %}
+                        <tr style="border-bottom: 1px solid #e4e7eb;">
+                            <td style="padding-left: 25px; vertical-align: top;">
+                                <div style="font-weight: 600; color: #1e3799;">🏢 {{ lab_data.nombre }}</div>
+                                <small style="color: #718093;">Código de sede de procesamiento: #{{ lab_id }}</small>
+                            </td>
+                            <td style="vertical-align: top;">
+                                <ul style="margin: 0; padding-left: 18px; color: #2f3542;">
+                                    {% for examen in lab_data.examenes %}
+                                        <li style="margin-bottom: 3px;">{{ examen.tipo_examen.nombre }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </td>
+                            <td style="text-align: center; width: 220px; vertical-align: middle;">
+                                <div class="acciones-iconos">
+                                    <a href="{% url 'reportesPDF:generapdf' orden_id=grupo.orden.id %}" 
+                                       class="btn-descargar" 
+                                       style="background-color: #10ac84; color: white; padding: 8px 12px; border-radius: 4px; text-decoration: none; font-weight: bold; font-size: 0.9em;"
+                                       title="Descargar PDF de {{ lab_data.nombre }}">
+                                        📥 Descargar Resultados
+                                    </a>
+                                </div>
+                            </td>
+                        </tr>
+                    {% endfor %}
+                {% empty %}
+                    <tr>
+                        <td colspan="3" style="text-align: center; padding: 30px; color: #7f8c8d;">
+                            No se encontraron exámenes realizados bajo los criterios de búsqueda establecidos.
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

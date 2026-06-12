@@ -6,7 +6,10 @@ from django.utils import timezone
 from django.core.mail import EmailMessage
 from examenes.models import ExamenRealizado, ParametroDefinicion, Resultado
 from reportesPDF.views import generar_reporte_completo_pdf
-from .forms import ResultadoForm
+from usuarios.models import *
+from usuarios.services.validacion_grupo import grupos_requeridos
+from django.db import transaction
+from reportesPDF.models import ResultadosExamenesPDF
 
 @login_required
 def solicitudes_pendientes(request):
@@ -58,6 +61,7 @@ def solicitudes_pendientes(request):
 
 
 @login_required
+@grupos_requeridos('Laboratoristas')
 def capturar_resultado(request, examen_id):
     if not request.user.rol or request.user.rol.nombre != 'LAB':
         return HttpResponseForbidden("No tenés permiso para acceder a esta página.")
@@ -113,6 +117,7 @@ def capturar_resultado(request, examen_id):
 
         examen.estado = 'completado'
         examen.fechaRealizado = timezone.now()
+        examen.procesado_por = get_object_or_404(Usuario, pk = request.user.id)
         examen.save()
 
         orden = examen.orden
@@ -121,7 +126,9 @@ def capturar_resultado(request, examen_id):
 
         if todos_completados:
             try:
-                buffer = generar_reporte_completo_pdf(orden)
+                with transaction.atomic():
+                    buffer = generar_reporte_completo_pdf(request, orden)
+                    crear_asociacion_resultados_pdf(request, orden)
                 correo_paciente = orden.expediente.cliente.correo_electronico
                 nombre_paciente = f"{orden.expediente.cliente.usuario.first_name} {orden.expediente.cliente.usuario.last_name}"
                 email = EmailMessage(
@@ -189,3 +196,23 @@ def resultados_completados(request):
     return render(request, 'resultados_completados.html', {
         'ordenes': ordenes
     })
+
+"""Funcion auxiliar que crea una instancia de resultados para una instancia de orden, si la instancia ya existe la función ya no hace nada"""
+def crear_asociacion_resultados_pdf(request, orden_):
+
+    if orden_.reporteGenerado() is True:
+        print("SE EJECUTO ACCION SALIDA")
+        return 
+
+    ResultadosExamenesPDF.objects.create(
+        orden = orden_,
+        AnalistaClinico = request.user.registroanalistaclinico,
+        expediente = orden_.expediente,
+        correlativo = orden_.id
+    )
+    orden_.reporte_generado = True
+    orden_.save()
+    print(orden_.reporte_generado)
+    print("ASOCIACION CREADA CON EXITO")
+
+    return 

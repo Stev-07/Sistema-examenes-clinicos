@@ -5,5 +5,6 @@ app_name = 'reportesPDF'
 
 urlpatterns = [
     path('generate/<int:orden_id>/', generar_reporte_completo_pdf, name='generate_report_pdf'),
+    path('g/<int:orden_id>', generar_pdf, name ='generapdf'),
     
 ]

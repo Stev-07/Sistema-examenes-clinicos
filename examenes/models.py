@@ -119,14 +119,19 @@ class Doctor(models.Model):
         return f"{self.nombreD} - JVPM: {self.jvpm}"
 
 # En esta clase se define lo que es la orden
+#por cada instancia de orden, debe existir un reporte generado
 class Orden(models.Model):
     expediente = models.ForeignKey('clientes.Expediente', on_delete=models.PROTECT)
     doctor = models.ForeignKey(Doctor, on_delete=models.PROTECT)
     correlativo = models.IntegerField(null=False, blank=False)
     fechaEmision = models.DateField(auto_now_add=False)
+    reporte_generado = models.BooleanField(default=False)
 
     def __str__(self):
         return f"Orden {self.correlativo} - {self.expediente}"
+    
+    def reporteGenerado(self):
+        return self.reporte_generado
 
 #Clase de pago para registrar los pagos 
 class Pagos(models.Model):

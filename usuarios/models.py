@@ -16,12 +16,20 @@ class TipoTituloProfesional(models.TextChoices):
 #clases
 class Sucursal(models.Model):
     nombre = models.CharField(max_length=50, null=False, blank=False)
-    ubicacion = models.CharField(max_length=50, null=False, blank=False)
+    ubicacion = models.CharField(max_length=150, null=False, blank=False)
     departamento = models.CharField(max_length=50, null=False, blank=False, default= "")
     numero_telefono = models.CharField(max_length=8, null=True, blank=False, default="")
 
     def __str__(self):
         return self.nombre
+    
+    def to_dict(self):
+        return{
+            'nombre': self.nombre,
+            'ubicacion': self.ubicacion,
+            'departamento': self.departamento,
+            'numero_telefono': self.numero_telefono,
+        }
 
 class Rol(models.Model):
     nombre = models.CharField(max_length=5, choices=TipoRol.choices)

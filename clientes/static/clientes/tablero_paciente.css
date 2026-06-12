@@ -1,0 +1,260 @@
+/* ==========================================================================
+   Contenedor Principal y Estilos Base
+   ========================================================================== */
+.contenedor-principal {
+    max-width: 1200px;
+    margin: 30px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #2c3e50;
+}
+
+.encabezado {
+    margin-bottom: 30px;
+    border-bottom: 2px solid #edf2f7;
+    padding-bottom: 15px;
+}
+
+.encabezado h1 {
+    font-size: 28px;
+    color: #1a202c;
+    margin: 0 0 8px 0;
+}
+
+.encabezado p {
+    font-size: 15px;
+    color: #718096;
+    margin: 0;
+}
+
+/* ==========================================================================
+   Sección de Filtros y Búsqueda
+   ========================================================================== */
+.busqueda-contenedor {
+    background-color: #ffffff;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.04);
+    border: 1px solid #e2e8f0;
+}
+
+.form-filtros {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+    align-items: flex-end;
+}
+
+.grupo-filtro {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    flex: 1;
+    min-width: 180px;
+}
+
+.grupo-filtro label {
+    font-size: 13px;
+    font-weight: 600;
+    color: #4a5568;
+}
+
+.grupo-filtro input {
+    padding: 10px 12px;
+    border: 1px solid #cbd5e0;
+    border-radius: 6px;
+    font-size: 14px;
+    color: #2d3748;
+    background-color: #fff;
+    transition: border-color 0.2s ease;
+}
+
+.grupo-filtro input:focus {
+    outline: none;
+    border-color: #3182ce;
+    box-shadow: 0 0 0 3px rgba(66, 153, 225, 0.15);
+}
+
+.botones-filtro {
+    display: flex;
+    gap: 10px;
+    min-width: 180px;
+}
+
+.btn-buscar {
+    background-color: #3182ce;
+    color: #ffffff;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    flex: 1;
+    transition: background-color 0.2s ease;
+}
+
+.btn-buscar:hover {
+    background-color: #2b6cb0;
+}
+
+.btn-limpiar {
+    background-color: #edf2f7;
+    color: #4a5568;
+    text-decoration: none;
+    text-align: center;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+    transition: background-color 0.2s ease;
+}
+
+.btn-limpiar:hover {
+    background-color: #e2e8f0;
+}
+
+/* ==========================================================================
+   Diseño de Tabla de Dos Niveles (Órdenes y Laboratorios)
+   ========================================================================== */
+.tabla-contenedor {
+    background-color: #ffffff;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+}
+
+.tabla-pendientes {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+/* Encabezado General de la Tabla */
+.tabla-pendientes th {
+    background-color: #2d3748;
+    color: #ffffff;
+    padding: 14px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+}
+
+/* NIVEL 1: Fila Separadora de Orden Médica */
+.tabla-pendientes tr.fila-orden-principal {
+    background-color: #f7fafc;
+    border-top: 3px solid #cbd5e0;
+}
+
+.tabla-pendientes tr.fila-orden-principal td {
+    padding: 14px 16px;
+    color: #2d3748;
+    font-size: 14px;
+}
+
+/* NIVEL 2: Filas de Sedes/Laboratorios independientes */
+.tabla-pendientes tr.fila-laboratorio {
+    border-bottom: 1px solid #edf2f7;
+    background-color: #ffffff;
+    transition: background-color 0.15s ease;
+}
+
+.tabla-pendientes tr.fila-laboratorio:hover {
+    background-color: #f8fafc;
+}
+
+.tabla-pendientes tr.fila-laboratorio td {
+    padding: 16px;
+    vertical-align: middle;
+}
+
+/* Listado de exámenes dentro de la celda */
+.tabla-pendientes td ul {
+    margin: 0;
+    padding-left: 20px;
+}
+
+.tabla-pendientes td ul li {
+    font-size: 14px;
+    color: #4a5568;
+    margin-bottom: 4px;
+}
+
+.tabla-pendientes td ul li:last-child {
+    margin-bottom: 0;
+}
+
+/* ==========================================================================
+   Botón de Acciones (Descargar PDF por Solicitud)
+   ========================================================================== */
+.acciones-iconos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.btn-descargar {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #38a169; /* Verde médico elegante */
+    color: #ffffff !important;
+    padding: 10px 18px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 13.5px;
+    white-space: nowrap;
+    border: none;
+    box-shadow: 0 2px 4px rgba(56, 161, 105, 0.2);
+    transition: all 0.2s ease;
+}
+
+.btn-descargar:hover {
+    background-color: #2f855a;
+    box-shadow: 0 4px 6px rgba(47, 133, 90, 0.3);
+    transform: translateY(-1px);
+}
+
+.btn-descargar:active {
+    transform: translateY(0);
+}
+
+/* Mensaje cuando la tabla está vacía */
+.tabla-vacía td {
+    color: #718096;
+    font-size: 15px;
+}
+
+/* ==========================================================================
+   Adaptabilidad Móvil (Responsive)
+   ========================================================================== */
+@media (max-width: 768px) {
+    .form-filtros {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .grupo-filtro {
+        width: 100%;
+    }
+    
+    .botones-filtro {
+        width: 100%;
+        margin-top: 10px;
+    }
+    
+    .tabla-pendientes th, 
+    .tabla-pendientes td {
+        padding: 12px 10px;
+        font-size: 13px;
+    }
+    
+    .btn-descargar {
+        padding: 8px 12px;
+        font-size: 12px;
+    }
+}

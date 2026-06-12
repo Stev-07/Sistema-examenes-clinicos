@@ -9,20 +9,28 @@ from reportlab.platypus import PageBreak, SimpleDocTemplate, Paragraph, Spacer, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib import colors
 from examenes.models import Orden, ExamenRealizado, TipoExamen
+from reportesPDF.models import ResultadosExamenesPDF
 from .models import ConfiguracionReporte
 from django.shortcuts import get_object_or_404
 from reportlab.platypus import SimpleDocTemplate
 from .services.diseño_categoria import *
 from .services.datos_fijos import *
+from usuarios.services.validacion_grupo import grupos_requeridos
 
-#debo esperar cambios, para poder enlazar resultados con modelo orden
-def get_datos_clinica(orden_id):
-
-
-    return ""
+"""Funcion auxiliar para obtener los datos de la clinica que emite los resultados"""
+def get_datos_clinica(request, orden):
+    if request.user.groups.filter(name='Laboratoristas').exists():
+        return request.user.sucursal.to_dict()
+    if request.user.groups.filter(name='Recepcionistas').exists():
+        return request.user.sucursal.to_dict()
+    if request.user.groups.filter(name='Pacientes').exists():
+        datos = ResultadosExamenesPDF.objects.get(correlativo = orden.id)
+        clinica = datos.AnalistaClinico.usuario.sucursal.to_dict()
+        return clinica
 
 #Función para generar el buffer
-def generar_reporte_completo_pdf(orden):
+@grupos_requeridos('Laboratoristas', 'Recepcionistas', 'Pacientes')
+def generar_reporte_completo_pdf(request,orden):
     #orden = get_object_or_404(Orden, id=orden_id)
     buffer = io.BytesIO()
     
@@ -35,12 +43,7 @@ def generar_reporte_completo_pdf(orden):
     )
     story = []
     
-    datos_clinica = {
-        'nombre': 'Sucursal 3',
-        'ubicacion': 'Condominio Clínicas Médicas, Primer Nivel, Local 16, Sobre 25 Av. Norte.',
-        'departamento': 'San Salvador',
-        'numero_telefono': '2562-2057'
-    }
+    datos_clinica = get_datos_clinica(request, orden)
     
     # 1. Obtener y agrupar exámenes por perfil
     examenes_realizados = ExamenRealizado.objects.filter(orden=orden, estado='completado').select_related('tipo_examen').order_by('tipo_examen__perfil')
@@ -121,7 +124,7 @@ def generar_reporte_completo_pdf(orden):
 def generar_pdf(request, orden_id):
     """Vista que usa generar_pdf_buffer y retorna la respuesta HTTP"""
     orden = get_object_or_404(Orden, id=orden_id)
-    buffer = generar_reporte_completo_pdf(orden)
+    buffer = generar_reporte_completo_pdf(request, orden)
     response = HttpResponse(buffer, content_type='application/pdf')
     response['Content-Disposition'] = f'inline; filename="Reporte_Orden_{orden.correlativo}.pdf"'
     return response
