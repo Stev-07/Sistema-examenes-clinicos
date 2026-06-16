@@ -92,7 +92,7 @@ class ItemInventario(models.Model):
         unique_together = ('insumo', 'inventario')
 
     def __str__(self):
-        return f"{self.insumo.nombre} - Cantidad: {self.cantidad}"
+        return f"{self.insumo.nombre}-{self.insumo.SKU}- Cantidad: {self.cantidad}"
 
     @property
     def bajo_stock(self):
