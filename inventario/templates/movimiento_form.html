@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
+{{ form.media.css }} {# para inyectar los estilos y uso de select2 #}
 <link rel="stylesheet" href="{% static 'inventario/css/inventario_forms.css' %}">
 
 <div class="form-container-wrapper">
@@ -51,4 +53,5 @@
         </div>
     </div>
 </div>
+{{ form.media.js }}
 {% endblock %}

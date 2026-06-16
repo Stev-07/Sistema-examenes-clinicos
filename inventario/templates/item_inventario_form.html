@@ -1,6 +1,8 @@
 {% extends 'base.html' %}
 {% load static %}
+
 {% block content %}
+{{ form.media.css }}
 <link rel="stylesheet" href="{% static 'inventario/css/inventario_forms.css' %}">
 
 <div class="form-container-wrapper">
@@ -18,6 +20,8 @@
                         <label for="{{ field.id_for_label }}" class="form-label">
                             {{ field.label }}
                         </label>
+                        
+                        <!-- Si el campo es el ForeignKey, se renderizará automáticamente como barra de búsqueda -->
                         {{ field }}
                         
                         {% if field.help_text %}
@@ -38,4 +42,5 @@
         </div>
     </div>
 </div>
+{{ form.media.js }}
 {% endblock %}

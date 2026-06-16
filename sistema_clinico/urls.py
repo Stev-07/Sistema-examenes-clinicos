@@ -25,4 +25,5 @@ urlpatterns = [
     path('report/', include('reportesPDF.urls')),
     path('inventario/', include('inventario.urls')),
     path('resultados/', include('resultados.urls')),
+    path('select2/', include('django_select2.urls')),
 ]

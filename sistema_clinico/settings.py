@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'reportesPDF',
     'inventario',
     'resultados',
+    'django_select2',
 ]
 
 
