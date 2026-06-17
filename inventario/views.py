@@ -21,7 +21,6 @@ from .forms import InsumoForm, ItemInventarioForm, MovimientoInventarioForm, Cat
 
 
 #GESTIÓN DEL CATÁLOGO DE INSUMOS
-#===============================
 
 class InsumoListView(LoginRequiredMixin, ListView):
     """Lista todo el catálogo maestro de insumos clínicos."""
@@ -48,7 +47,6 @@ class InsumoUpdateView(LoginRequiredMixin, UpdateView):
 
 
 # CONTROL DE STOCK POR SEDE
-# ============================
 
 class ItemInventarioListView(LoginRequiredMixin, ListView):
     """Muestra el stock. Los empleados solo ven su sede; los admins/bodegueros ven todo."""
@@ -59,11 +57,11 @@ class ItemInventarioListView(LoginRequiredMixin, ListView):
     def get_queryset(self):
         queryset = ItemInventario.objects.all().select_related('insumo', 'inventario__sede')
         
-        # Si el usuario pertenece a una sucursal específica, lo aislamos rigurosamente
+        # Si el usuario pertenece a una sucursal específica, se aisla solo a su respectiva sucursal
         if self.request.user.sucursal:
             return queryset.filter(inventario__sede=self.request.user.sucursal, cantidad__gt=0)
         
-        # Si no tiene sucursal (es Admin o Almacenista Central), ve todo el panorama
+        # Si no tiene sucursal (es Admin o Almacenista Central), ve todo
         return queryset
 
 class ItemInventarioCreateView(LoginRequiredMixin, CreateView):
@@ -102,9 +100,7 @@ class ItemInventarioDetailView(LoginRequiredMixin, DetailView):
         return context
 
 
-
-# 3. TRANSACCIONES Y MOVIMIENTOS
-# ==============================
+# TRANSACCIONES Y MOVIMIENTOS
 
 class MovimientoInventarioCreateView(LoginRequiredMixin, CreateView):
     model = MovimientoInventario
@@ -114,7 +110,7 @@ class MovimientoInventarioCreateView(LoginRequiredMixin, CreateView):
 
     def get_form_kwargs(self):
         kwargs = super().get_form_kwargs()
-        kwargs['user'] = self.request.user  # Pasamos el usuario con sus roles y sucursal
+        kwargs['user'] = self.request.user  
         kwargs['request'] = self.request
         return kwargs
 

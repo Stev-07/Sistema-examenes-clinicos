@@ -175,8 +175,5 @@ class Resultado(models.Model):
 
     def __str__(self):
         return f"{self.parametro.nombreP}: {self.valor}"
-    #PODER CREAR UN EXÁMEN, CREARLE SUS PARAMÉTROS, CREAR UN RESULTADO EXAMEN Y UN RESULTADO PARAMETROD
-    #QUE SE RELACIONEN ENTRE ELLOS CON SUS RESPETIVAS LALVES ETC, Y SE DEBEN PDOER TENER 
-    #SUS RELACIONES
 
     

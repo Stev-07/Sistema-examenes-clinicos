@@ -14,7 +14,7 @@ def get_tipo_muestra(examen_realizado):
     return "MUESTRA DESCONOCIDA"
 
 
-# --- DISEÑO 1: REPORTE TIPO TABLA (Estándar de 4 columnas) ---
+# --- DISEÑO : REPORTE TIPO TABLA 
 def generar_diseno_tabla(examen_realizado):
     style_centro = ParagraphStyle('Cen', parent=style_normal, alignment=1)
     
@@ -48,9 +48,8 @@ def generar_diseno_tabla(examen_realizado):
     return tabla
 
 
-# --- DISEÑO 2: REPORTE CATEGORIZADO (Estructura en bloques/párrafos, ej: Uroanálisis) ---
+# --- DISEÑO : REPORTE CATEGORIZADO (Estructura en bloques/párrafos)
 def generar_diseno_categorizado(examen_realizado):
-    # Ideal para exámenes que no son solo números, sino descripciones detalladas por bloques
     filas = [
         [Paragraph(f"<b>ANÁLISIS DETALLADO: {examen_realizado.tipo_examen.nombre.upper()}</b>", style_normal), ""]
     ]
@@ -74,7 +73,7 @@ def generar_diseno_categorizado(examen_realizado):
     return tabla
 
 
-# --- DISEÑO 3: REPORTE TIPO IMAGEN (Contenedor estructurado para gráficos o adjuntos) ---
+# --- DISEÑO : REPORTE TIPO IMAGEN (Contenedor estructurado para gráficos o adjuntos) 
 def generar_diseno_imagen(examen_realizado):
     # Crea un recuadro limpio y estandarizado que sirva como marcador de posición o contenedor visual
     filas = [

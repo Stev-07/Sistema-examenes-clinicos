@@ -3,8 +3,11 @@ from django.contrib import messages
 from .forms import *
 from .services import *
 from django.contrib.auth.decorators import login_required
-from django.db.models import Q
 from examenes.models import ExamenRealizado 
+import io
+from django.http import FileResponse
+from reportlab.pdfgen import canvas
+
 
 # Create your views here.
 def create_paciente_expediente(request):
@@ -33,15 +36,12 @@ def create_paciente_expediente(request):
 
 @login_required
 def dashboard_paciente(request):
-    # 1. Filtramos los exámenes pertenecientes al paciente actual que estén completados
-    # (Ajusta la relación 'orden__expediente__usuario' según tu modelo de usuarios/clientes)
     cliente = Cliente.objects.get(usuario = request.user.id)
     queryset = ExamenRealizado.objects.filter(
         orden__expediente__cliente=cliente, 
         estado='completado'
     ).select_related('orden', 'orden__doctor', 'tipo_examen')
 
-    # 2. Captura y aplicación de los filtros del formulario HTML
     n_orden = request.GET.get('orden')
     medico = request.GET.get('medico')
     fecha_inicio = request.GET.get('fecha_inicio')
@@ -56,7 +56,6 @@ def dashboard_paciente(request):
     if fecha_fin:
         queryset = queryset.filter(orden__fechaEmision__lte=fecha_fin)
 
-    # 3. Estructuración del diccionario con doble nivel de agrupamiento
     ordenes_agrupadas = {}
 
     for examen in queryset:
@@ -65,19 +64,17 @@ def dashboard_paciente(request):
         # Identificamos el laboratorio/sede que procesó este examen a través del usuario analista/recepcionista
         if examen.procesado_por and hasattr(examen.procesado_por, 'sucursal') and examen.procesado_por.sucursal:
             sucursal_id = examen.procesado_por.sucursal.id
-            sucursal_nombre = examen.procesado_por.sucursal.nombre # O el campo de texto de tu modelo Sucursal
+            sucursal_nombre = examen.procesado_por.sucursal.nombre
         else:
             sucursal_id = 0
             sucursal_nombre = "Sede General / Laboratorio Externo"
 
-        # Nivel 1: Si la Orden Médica no existe en el diccionario, la creamos
         if orden_id not in ordenes_agrupadas:
             ordenes_agrupadas[orden_id] = {
                 'orden': examen.orden,
                 'laboratorios': {} # Diccionario interno para agrupar por sedes independientes
             }
 
-        # Nivel 2: Si la Sede/Laboratorio no existe dentro de esta orden, la creamos
         if sucursal_id not in ordenes_agrupadas[orden_id]['laboratorios']:
             ordenes_agrupadas[orden_id]['laboratorios'][sucursal_id] = {
                 'id': sucursal_id,
@@ -85,7 +82,6 @@ def dashboard_paciente(request):
                 'examenes': []
             }
 
-        # Nivel 3: Añadimos el examen al listado exclusivo de ese laboratorio
         ordenes_agrupadas[orden_id]['laboratorios'][sucursal_id]['examenes'].append(examen)
 
     context = {
@@ -94,19 +90,12 @@ def dashboard_paciente(request):
     }
     return render(request, 'tablero_expediente.html', context)
 
-import io
-from django.http import FileResponse
-from reportlab.pdfgen import canvas
-# ... importa tus cosas de reportlab aquí ...
-
 def generar_pdf_reportlab(examen_id):
     """ Función auxiliar que construye el PDF y devuelve el buffer de memoria """
     buffer = io.BytesIO()
     
-    # Aquí va tu lógica actual de ReportLab
     p = canvas.Canvas(buffer)
     p.drawString(100, 100, f"Resultado de Examen ID: {examen_id}")
-    # ... renderiza tablas, laboratorios, firmas, etc. ...
     p.showPage()
     p.save()
     

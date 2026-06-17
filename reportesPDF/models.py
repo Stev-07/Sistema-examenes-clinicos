@@ -34,10 +34,6 @@ class ConfiguracionReporte(models.Model):
         ('IMAGEN', 'Imagen')
     ]
 
-    #examen = models.ForeignKey(
-    #   'examenes.Examen',
-    #  on_delete=models.CASCADE
-    #)
     # Relación directa con el tipo de examen
     tipo_examen = models.ForeignKey(
         'examenes.TipoExamen', 

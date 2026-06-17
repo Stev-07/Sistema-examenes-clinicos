@@ -110,7 +110,7 @@ class MovimientoInventarioForm(forms.ModelForm):
         
         super().__init__(*args, **kwargs)
         
-        # 3. Asignamos el request al widget de Select2 para que pueda filtrar por AJAX
+        # se asigna el request al widget de Select2 para que pueda filtrar por AJAX
         if request_obj:
             self.fields['item_inventario'].widget.request = request_obj
 

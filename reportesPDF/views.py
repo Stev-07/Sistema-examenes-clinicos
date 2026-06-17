@@ -31,7 +31,6 @@ def get_datos_clinica(request, orden):
 #Función para generar el buffer
 @grupos_requeridos('Laboratoristas', 'Recepcionistas', 'Pacientes')
 def generar_reporte_completo_pdf(request,orden):
-    #orden = get_object_or_404(Orden, id=orden_id)
     buffer = io.BytesIO()
     
     #el topMargin a 180
@@ -45,7 +44,7 @@ def generar_reporte_completo_pdf(request,orden):
     
     datos_clinica = get_datos_clinica(request, orden)
     
-    # 1. Obtener y agrupar exámenes por perfil
+    # Obtener y agrupar exámenes por perfil
     examenes_realizados = ExamenRealizado.objects.filter(orden=orden, estado='completado').select_related('tipo_examen').order_by('tipo_examen__perfil')
     
     examenes_por_perfil = {}
@@ -55,7 +54,7 @@ def generar_reporte_completo_pdf(request,orden):
             examenes_por_perfil[perfil] = []
         examenes_por_perfil[perfil].append(examen)
     
-    # 2. Armar el flujo (story) de exámenes
+    # Armar el flujo (story) de exámenes
     for indice, (perfil, examenes) in enumerate(examenes_por_perfil.items()):
         if indice > 0:
             story.append(PageBreak()) # Salto de página entre perfiles diferentes
@@ -92,14 +91,14 @@ def generar_reporte_completo_pdf(request,orden):
         ancho_cuadrado = doc.width               # Mismo ancho que el contenido (Letter width - márgenes)
         alto_cuadrado = 45                       # Altura de la caja para que quepan las dos líneas
         
-        # 1. Configurar el estilo del cuadrado
-        canvas.setStrokeColorRGB(0.7, 0.7, 0.7)  # Color gris suave para el borde (valores de 0 a 1)
+        # Configurar el estilo del cuadrado
+        canvas.setStrokeColorRGB(0.7, 0.7, 0.7)  
         canvas.setLineWidth(1)                   # Grosor de la línea
         
-        # 2. Dibujar el rectángulo: rect(x, y, ancho, alto)
+        # Dibujar el rectángulo: rect(x, y, ancho, alto)
         canvas.rect(x_cuadrado, y_cuadrado, ancho_cuadrado, alto_cuadrado, stroke=1, fill=0)
         
-        # 3. Configurar la tipografía para el texto legal
+        # Configurar la tipografía para el texto 
         canvas.setFont("Helvetica-Bold", 8)      # Fuente en negrita y tamaño pequeño
         canvas.setFillColorRGB(0.2, 0.2, 0.2)    # Color de texto gris oscuro/negro
         
@@ -121,6 +120,7 @@ def generar_reporte_completo_pdf(request,orden):
     return buffer
 
 #Función para generar el PDF
+@grupos_requeridos('Laboratoristas', 'Recepcionistas', 'Pacientes')
 def generar_pdf(request, orden_id):
     """Vista que usa generar_pdf_buffer y retorna la respuesta HTTP"""
     orden = get_object_or_404(Orden, id=orden_id)

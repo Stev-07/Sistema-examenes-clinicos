@@ -64,7 +64,7 @@ def generar_encabezado_clinica(datos_clinica):
 def generar_bloque_paciente(orden):
     nombre_medico = orden.doctor if orden.doctor else "No especificado"
     
-    # Intentamos obtener la fecha de la orden si existe en tu modelo, si no, dejamos "N/A"
+    # Intentamos obtener la fecha, si no, dejamos "N/A"
     fecha_orden = orden.fechaEmision.strftime('%d/%m/%Y') if hasattr(orden, 'fechaEmision') and orden.fechaEmision else "N/A"
 
     data = [
@@ -102,7 +102,7 @@ def generar_bloque_paciente(orden):
 def generar_tabla_examen(nombre_examen, resultados_queryset):
     style_centro = ParagraphStyle('Cen', parent=style_normal, alignment=1)
     
-    # Encabezado con el nombre del Examen/Categoría (ej: QUIMICA CLINICA)
+    # Encabezado con el nombre del Examen/Categoría
     filas = [
         [Paragraph(f"<b>EXAMEN: {nombre_examen.upper()}</b>", style_normal), "", "", ""],
         ["Prueba", "Resultado", "Unidades", "Rangos de Referencia"]
