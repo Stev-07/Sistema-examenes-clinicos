@@ -1,10 +1,14 @@
+from django.shortcuts import render, redirect, get_object_or_404
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required
-from django.http import HttpResponseForbidden, JsonResponse
+from django.contrib import messages
+from django.core.mail import EmailMessage
+from django.http import HttpResponseForbidden, JsonResponse, HttpResponse
 from django.views.decorators.http import require_POST
 from clientes.models import Cliente, Expediente
 from .models import TipoExamen, Orden, Doctor, Pagos, ExamenRealizado
 from .forms import DoctorForm, OrdenForm
+
 
 #Verificamos el rol del usuario al ingresar para gestionar los exámenes
 @login_required
@@ -143,4 +147,87 @@ def confirmar_pago(request):
         return redirect('nueva-orden')
 
     except Exception as e:
+        import logging
+        logger = logging.getLogger(__name__)
+        logger.exception("--- DETALLE DEL ERROR EN BASE DE DATOS ---")
         return JsonResponse({'success': False, 'error': str(e)})
+    
+@login_required
+def solicitudes_recepcionista(request):
+    if not request.user.groups.filter(name='Recepcionistas').exists():
+        return HttpResponseForbidden("No tenés permiso para acceder a esta página.")
+    buscar = request.GET.get('buscar', '')
+    examenes = (
+        ExamenRealizado.objects
+        .filter(orden__expediente__cliente__n_dui__icontains=buscar)
+        .select_related(
+            'orden',
+            'orden__expediente',
+            'orden__expediente__cliente__usuario',
+            'tipo_examen'
+        )
+        .order_by('orden__fechaEmision')
+    )
+    ordenes_dict = {}
+    for examen in examenes:
+        orden_id = examen.orden.id
+        if orden_id not in ordenes_dict:
+            ordenes_dict[orden_id] = {
+                'orden': examen.orden,
+                'examenes': []
+            }
+        ordenes_dict[orden_id]['examenes'].append(examen)
+
+    ordenes_pendientes = []
+    ordenes_completadas = []
+    for grupo in ordenes_dict.values():
+        todos_completados = all(e.estado == 'completado' for e in grupo['examenes'])
+        grupo['todos_completados'] = todos_completados 
+        if todos_completados:
+            ordenes_completadas.append(grupo)
+        else:
+            ordenes_pendientes.append(grupo)
+
+    ordenes = ordenes_pendientes + ordenes_completadas
+    return render(request, 'solicitudes_recepcionista.html', {'ordenes': ordenes})
+
+@login_required
+def descargar_pdf(request, orden_id):
+    if not request.user.rol or request.user.rol.nombre not in ['REC', 'LAB']:
+        return HttpResponseForbidden("No tenés permiso para acceder a esta página.")
+    from reportesPDF.views import generar_reporte_completo_pdf
+    orden = get_object_or_404(Orden, id=orden_id)
+    buffer = generar_reporte_completo_pdf(request, orden)  # ✅ ahora pasa request también
+    response = HttpResponse(buffer, content_type='application/pdf')
+    response['Content-Disposition'] = f'attachment; filename="Reporte_Orden_{orden.correlativo}.pdf"'
+    return response
+
+@login_required
+def reenviar_correo(request, orden_id):
+    if not request.user.rol or request.user.rol.nombre not in ['REC', 'LAB']:
+        return HttpResponseForbidden("No tenés permiso para acceder a esta página.")
+    from reportesPDF.views import generar_reporte_completo_pdf
+    orden = get_object_or_404(Orden, id=orden_id)
+    try:
+        buffer = generar_reporte_completo_pdf(request, orden)  # ✅ ahora pasa request también
+        correo_paciente = orden.expediente.cliente.correo_electronico
+        nombre_paciente = f"{orden.expediente.cliente.usuario.first_name} {orden.expediente.cliente.usuario.last_name}"
+        email = EmailMessage(
+            subject=f'Resultados de examen - Orden {orden.correlativo}',
+            body=f'Estimado/a {nombre_paciente},\n\nAdjunto encontrará los resultados de su examen.\n\nSaludos.',
+            to=[correo_paciente],
+        )
+        email.attach(
+            f'Reporte_Orden_{orden.correlativo}.pdf',
+            buffer.getvalue(),
+            'application/pdf'
+        )
+        email.send()
+        messages.success(request, 'Correo reenviado correctamente.')
+    except Exception as e:
+        messages.warning(request, f'Error al reenviar el correo: {str(e)}')
+
+    if request.user.rol.nombre == 'REC':
+        return redirect('solicitudes-recepcionista')
+    else:
+        return redirect('resultados:solicitudes_pendientes')

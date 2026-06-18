@@ -1,0 +1,139 @@
+.contenedor-resultados {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 22px 30px;
+}
+
+.contenedor-resultados h1 {
+    color: #0072bc;
+    font-size: 24px;
+    margin-bottom: 18px;
+}
+
+/* BLOQUE INFORMACIÓN */
+.bloque-informacion {
+    background: white;
+    border: 0.5px solid #d7e7ee;
+    border-radius: 8px;
+    padding: 18px 22px;
+    margin-bottom: 24px;
+}
+
+.bloque-informacion h3 {
+    color: #00689d;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #d7e7ee;
+}
+
+.bloque-informacion p {
+    font-size: 14px;
+    color: #374151;
+    margin-bottom: 6px;
+}
+
+.bloque-informacion p strong {
+    color: #111827;
+}
+
+/* BLOQUE PARÁMETROS */
+.bloque-parametros {
+    background: white;
+    border: 0.5px solid #d7e7ee;
+    border-radius: 8px;
+    padding: 18px 22px;
+}
+
+.bloque-parametros h3 {
+    color: #00689d;
+    font-size: 15px;
+    font-weight: 600;
+    margin-bottom: 16px;
+    padding-bottom: 8px;
+    border-bottom: 1px solid #d7e7ee;
+}
+
+/* TABLA */
+.bloque-parametros table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+}
+
+.bloque-parametros thead {
+    background: #00689d;
+}
+
+.bloque-parametros thead th {
+    color: white;
+    padding: 10px 12px;
+    text-align: left;
+    font-weight: 600;
+}
+
+.bloque-parametros td {
+    padding: 10px 12px;
+    border-bottom: 1px solid #d7e7ee;
+    color: #374151;
+    vertical-align: middle;
+}
+
+.bloque-parametros tbody tr:nth-child(even) {
+    background: #f4fbfd;
+}
+
+.bloque-parametros tbody tr:hover {
+    background: #eaf7fb;
+}
+
+/* INPUTS Y SELECT */
+.bloque-parametros input[type="number"],
+.bloque-parametros input[type="text"],
+.bloque-parametros select {
+    width: 100%;
+    border: none;
+    border-bottom: 2px solid #a8a8a8;
+    background: transparent;
+    padding: 6px 4px;
+    font-size: 13px;
+    outline: none;
+}
+
+.bloque-parametros input:focus,
+.bloque-parametros select:focus {
+    border-bottom-color: #0072bc;
+}
+
+/* BOTÓN GUARDAR */
+.bloque-parametros button[type="submit"] {
+    margin-top: 20px;
+    background: #00689d;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 10px 28px;
+    font-size: 14px;
+    cursor: pointer;
+}
+
+.bloque-parametros button[type="submit"]:hover {
+    background: #00557f;
+}
+
+/* ALERTAS DE ERRORES */
+.alerta-errores {
+    background: #fef2f2;
+    border: 1px solid #fecaca;
+    border-radius: 8px;
+    padding: 12px 16px;
+    margin-bottom: 18px;
+    color: #b91c1c;
+    font-size: 13px;
+}
+
+.alerta-errores ul {
+    margin: 0;
+    padding-left: 18px;
+}

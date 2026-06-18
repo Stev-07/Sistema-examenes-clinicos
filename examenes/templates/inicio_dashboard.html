@@ -1,0 +1,54 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Inicio - Panel de Gestión{% endblock %}
+
+{% block head %}
+<link rel="stylesheet" href="{% static 'examenes/inicio_dashboard.css' %}?v=1.5">
+{% endblock %}
+
+{% block content %}
+
+<div class="dashboard-principal">
+
+    <div class="dashboard-grid">
+        
+        <a href="{% url 'pacientes:crea_expediente' %}" class="card-link">
+            <div class="card-dashboard">
+                <div class="card-info">
+                    <h2>Pacientes</h2>
+                    <p>Registro de pacientes</p>
+                </div>
+                <div class="card-icono">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                </div>
+            </div>
+        </a>
+
+        <a href="{% url 'nueva-orden' %}" class="card-link">
+            <div class="card-dashboard">
+                <div class="card-info">
+                    <h2>Ordenes</h2>
+                    <p>Captura de datos para los examenes</p>
+                </div>
+                <div class="card-icono">
+                    <i class="fa-solid fa-vials"></i>
+                </div>
+            </div>
+        </a>
+
+        <a href="{% url 'solicitudes-recepcionista' %}" class="card-link"> <div class="card-dashboard">
+                <div class="card-info">
+                    <h2>Solicitudes</h2>
+                    <p>Consulta de solicitudes pendientes</p>
+                </div>
+                <div class="card-icono">
+                    <i class="fa-solid fa-user-injured"></i>
+                </div>
+            </div>
+        </a>
+
+    </div>
+
+</div>
+{% endblock %}

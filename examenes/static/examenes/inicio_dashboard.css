@@ -1,0 +1,75 @@
+.dashboard-principal {
+    max-width: 1100px;
+    margin: 30px auto;
+    padding: 0 20px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Contenedor flexible para alinear las 3 tarjetas de forma horizontal */
+.dashboard-grid {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    gap: 24px;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.card-link {
+    flex: 1; /* Hace que las 3 tarjetas tengan exactamente el mismo ancho */
+    min-width: 280px;
+    text-decoration: none;
+}
+
+/* Diseño estructural de cada Tarjeta */
+.card-dashboard {
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    padding: 22px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+/* Efecto Hover */
+.card-dashboard:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0, 0, 0, 0.1);
+}
+
+/* Bloque de textos */
+.card-info {
+    flex: 1;
+    padding-right: 10px;
+}
+
+.card-info h2 {
+    color: #0072bc; /* El mismo azul institucional de tus títulos */
+    font-size: 20px;
+    font-weight: 600;
+    margin: 0 0 6px 0;
+}
+
+.card-info p {
+    color: #6b7280;
+    font-size: 13px;
+    margin: 0;
+    line-height: 1.4;
+}
+
+/* Cuadro del Ícono idéntico a tu diseño */
+.card-icono i {
+    background: #00689d;
+    color: #ffffff;
+    font-size: 20px;
+    width: 46px;
+    height: 46px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    box-sizing: border-box;
+}

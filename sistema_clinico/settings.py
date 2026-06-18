@@ -107,8 +107,8 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'sistema_clinico',
         'USER': 'postgres',
-        'PASSWORD': 'rs22042',
-        'HOST': 'localhost',
+        'PASSWORD': 'admin2003',
+        'HOST': '127.0.0.1',
         'PORT': '5432',
     }
 }
@@ -149,6 +149,7 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = BASE_DIR / 'staticfiles'
 
 STATICFILES_DIRS = [ BASE_DIR / "static", ]
 # Default primary key field type
