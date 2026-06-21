@@ -115,6 +115,9 @@ def confirmar_pago(request):
     try:
         tipo_pago = request.POST.get('tipo_pago')
 
+        print(f"USUARIO: {request.user.username}")
+        print(f"SUCURSAL DEL USUARIO: {request.user.sucursal}")
+
         expediente = Expediente.objects.get(id=orden_pendiente['expediente_id'])
         doctor, _ = Doctor.objects.get_or_create(
             jvpm=orden_pendiente['jvpm'],
@@ -124,10 +127,13 @@ def confirmar_pago(request):
         orden = Orden.objects.create(
             expediente=expediente,
             doctor=doctor,
+            sucursal=request.user.sucursal,
             correlativo=orden_pendiente['correlativo'],
             fechaEmision=orden_pendiente['fechaEmision'],
         )
 
+        print(f"ORDEN CREADA CON SUCURSAL: {orden.sucursal}")
+        
         for examen_id in orden_pendiente['examenes_ids']:
             examen = TipoExamen.objects.get(id=examen_id)
             ExamenRealizado.objects.create(
@@ -159,7 +165,8 @@ def solicitudes_recepcionista(request):
     buscar = request.GET.get('buscar', '')
     examenes = (
         ExamenRealizado.objects
-        .filter(orden__expediente__cliente__n_dui__icontains=buscar)
+        .filter(orden__expediente__cliente__n_dui__icontains=buscar,
+                orden__sucursal=request.user.sucursal)
         .select_related(
             'orden',
             'orden__expediente',

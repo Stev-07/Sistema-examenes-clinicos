@@ -123,6 +123,7 @@ class Doctor(models.Model):
 class Orden(models.Model):
     expediente = models.ForeignKey('clientes.Expediente', on_delete=models.PROTECT)
     doctor = models.ForeignKey(Doctor, on_delete=models.PROTECT)
+    sucursal = models.ForeignKey('usuarios.Sucursal', on_delete=models.PROTECT, null=True, blank=True)
     correlativo = models.IntegerField(null=False, blank=False)
     fechaEmision = models.DateField(auto_now_add=False)
     reporte_generado = models.BooleanField(default=False)

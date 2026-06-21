@@ -20,7 +20,9 @@ def solicitudes_pendientes(request):
 
     examenes = (
         ExamenRealizado.objects
-        .filter( orden__expediente__cliente__n_dui__icontains=buscar, estado='pendiente')
+        .filter( orden__expediente__cliente__n_dui__icontains=buscar, 
+                estado='pendiente',
+                orden__sucursal=request.user.sucursal)
         .select_related(
             'orden',
             'orden__expediente',
