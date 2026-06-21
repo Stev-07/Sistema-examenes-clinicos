@@ -53,7 +53,7 @@ def laboratorista_dashboard(request):
     return render(request, 'laboratorio_dashboard.html')
 
 def recepcionista_dashboard(request):
-    return render(request, './prueba.html')
+    return render(request, 'inicio_dashboard.html')
 
 def almacenista_dashboard(request):
     return render(request, './prueba.html')

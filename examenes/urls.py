@@ -8,5 +8,8 @@ urlpatterns = [
     path('previsualizar-pago/', views.previsualizar_pago, name='previsualizar-pago'),
     path('pago/', views.pago_orden, name='pago-orden'),
     path('confirmar-pago/', views.confirmar_pago, name='confirmar-pago'),
+    path('solicitudes/', views.solicitudes_recepcionista, name='solicitudes-recepcionista'),
+    path('descargar/<int:orden_id>/', views.descargar_pdf, name='descargar-pdf'),
+    path('reenviar/<int:orden_id>/', views.reenviar_correo, name='reenviar-correo'),
 
 ]

@@ -6,28 +6,37 @@
         <img src="{% static 'imagenes/Logo 1.jpeg' %}" alt="FIA-MEDS">
     </div>
 
-
     <button class="toggle-btn" onclick="toggleSidebar()">☰</button>
-    
-    <nav>
+
+    <nav class="sidebar-nav">
         <ul>
-            <li>               
-                <a href="#" class="nav-link">
-                    <span class="icon">🏠</span>{#- CAMBIAR LUEGO POR ICONOS DE FONTAWESOME#}
+            <li>
+                <a href="{% url 'usuarios:recepcion-dashboard' %}" class="nav-link">
+                    <i class="fa-solid fa-house"></i>
                     <span class="text">Inicio</span>
                 </a>
             </li>
-        </ul>
-        <ul>
             <li>
-                <a href="#" class="nav-link">                  
-                    <span class="icon">📦</span>{#- CAMBIAR LUEGO POR ICONOS DE FONTAWESOME#}
-                    <span class="text">pacientes</span>
+                <a href="{% url 'pacientes:crea_expediente' %}" class="nav-link">
+                    <i class="fa-solid fa-user-plus"></i>
+                    <span class="text">Pacientes</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'nueva-orden' %}" class="nav-link">
+                    <i class="fa-solid fa-vials"></i>
+                    <span class="text">Ordenes</span>
+                </a>
+            </li>
+            <li>
+                <a href="{% url 'solicitudes-recepcionista' %}" class="nav-link">
+                    <i class="fa-solid fa-clipboard-list"></i>
+                    <span class="text">Solicitudes</span>
                 </a>
             </li>
         </ul>
     </nav>
 
-{% include 'includes/_logout_button.html' %}
+    {% include 'includes/_logout_button.html' %}
 
 </aside>

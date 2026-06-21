@@ -1,4 +1,4 @@
-from django.shortcuts import render,redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib import messages
 from .forms import *
 from .services import *
@@ -7,32 +7,76 @@ from examenes.models import ExamenRealizado
 import io
 from django.http import FileResponse
 from reportlab.pdfgen import canvas
+from django.http import HttpResponseForbidden, JsonResponse
+
+@login_required
+def buscar_cliente_existente(request):
+    if not request.user.groups.filter(name='Recepcionistas').exists():
+        return HttpResponseForbidden("No tenés permiso para acceder a esta página.")
+    
+    dui = request.GET.get('dui', '')
+    try:
+        cliente = Cliente.objects.select_related('usuario').get(n_dui=dui)
+        print(cliente.sexo)
+        return JsonResponse({
+            'encontrado': True,
+            'cliente_id': cliente.id,
+            'first_name': cliente.usuario.first_name,
+            'last_name': cliente.usuario.last_name,
+            'n_dui': cliente.n_dui,
+            'fecha_nacimiento': str(cliente.fecha_nacimiento),
+            'sexo': cliente.sexo,
+            'correo_electronico': cliente.correo_electronico,
+        })
+    except Cliente.DoesNotExist:
+        return JsonResponse({'encontrado': False})
 
 
-# Create your views here.
 def create_paciente_expediente(request):
-    if request.method == 'POST':
-        form = ClienteForm(request.POST)
-        form_user = UsuarioDatosForm(request.POST)
-        if form.is_valid() and form_user.is_valid():
-            Nuevopaciente = create_expediente_service(form, form_user)
+    cliente_id = request.POST.get('cliente_id') or request.GET.get('cliente_id')
+    es_edicion = bool(cliente_id)
 
-            #variables de sesion para mostrar mensaje de éxito
-            request.session['expediente_numero'] = Nuevopaciente['expediente'].numero_expediente
-            messages.success(request, f"Se ha creado con éxito el expediente para {Nuevopaciente['usuario'].first_name} {Nuevopaciente['usuario'].last_name} con número de expediente {Nuevopaciente['expediente'].numero_expediente}.")
+    if request.method == 'POST':
+        if es_edicion:
+            cliente = get_object_or_404(Cliente, id=cliente_id)
+            usuario = cliente.usuario
+
+            # Actualizar correo
+            nuevo_correo = request.POST.get('correo_electronico')
+            if nuevo_correo:
+                cliente.correo_electronico = nuevo_correo
+                cliente.save()
+
+            # Actualizar contraseña solo si se escribió una nueva
+            nueva_password = request.POST.get('password1')
+            if nueva_password:
+                usuario.set_password(nueva_password)
+                usuario.save()
+
+            messages.success(request, f"Datos de {usuario.first_name} {usuario.last_name} actualizados correctamente.")
             if request.user.groups.filter(name='Recepcionistas').exists():
-                return redirect('usuarios:recepcionista_dashboard')
+                return redirect('usuarios:recepcion-dashboard')
             return redirect('usuarios:login')
 
-        print("Errores del formulario:", form.errors)  # Debug: Verificar errores del formulario
-        print("Errores del formulario de usuario:", form_user.errors)  # Debug: Verificar errores del formulario de usuario
-        messages.error(request, "Error al crear el expediente. Por favor, revise los datos ingresados.")
-        return render(request, 'create_paciente.html', {'form': form, 'form_user': form_user})
-            
+        else:
+            form = ClienteForm(request.POST)
+            form_user = UsuarioDatosForm(request.POST)
+            if form.is_valid() and form_user.is_valid():
+                Nuevopaciente = create_expediente_service(form, form_user)
+                request.session['expediente_numero'] = Nuevopaciente['expediente'].numero_expediente
+                messages.success(request, f"Se ha creado con éxito el expediente para {Nuevopaciente['usuario'].first_name} {Nuevopaciente['usuario'].last_name} con número de expediente {Nuevopaciente['expediente'].numero_expediente}.")
+                if request.user.groups.filter(name='Recepcionistas').exists():
+                    return redirect('usuarios:recepcion-dashboard')
+                return redirect('usuarios:login')
+
+            messages.error(request, "Error al crear el expediente. Por favor, revise los datos ingresados.")
+            return render(request, 'create_paciente.html', {'form': form, 'form_user': form_user})
+
     else:
         form = ClienteForm()
         form_user = UsuarioDatosForm()
         return render(request, 'create_paciente.html', {'form': form, 'form_user': form_user})
+
 
 @login_required
 def dashboard_paciente(request):
@@ -120,3 +164,4 @@ def descargar_pdf_examen(request, examen_id):
         filename=f"Resultado_Examen_{examen_id}.pdf", 
         content_type='application/pdf'
     )
+

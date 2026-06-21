@@ -1,30 +1,93 @@
+/* ==========================================================================
+   Contenedor Principal: Lo compactamos a 900px para una vista más formal
+   ========================================================================== */
 .paciente-container {
-    max-width: 1100px;
-    margin: 0 auto;
-    padding: 25px 35px;
+    max-width: 900px; /* Hace que no se vea tan ampliado en pantallas grandes */
+    margin: 20px auto;
+    padding: 20px 30px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
 .paciente-container h2 {
     color: #0072bc;
-    font-size: 24px;
-    margin-bottom: 28px;
+    font-size: 22px;
+    margin-bottom: 24px;
+    font-weight: 600;
 }
 
+/* ==========================================================================
+   Buscador Superior: Conservando tus clases nativas intactas
+   ========================================================================== */
+.busqueda-cliente {
+    display: flex;
+    align-items: flex-end; /* Alinea perfectamente la etiqueta, el input y el botón */
+    gap: 12px;
+    margin-bottom: 30px;
+    max-width: 400px; /* Limita el ancho para que se vea ordenado y compacto */
+}
+
+.busqueda-cliente label {
+    font-size: 14px;
+    font-weight: 600;
+    color: #4b5563;
+    white-space: nowrap; /* Evita que el texto de la etiqueta se parta en dos líneas */
+}
+
+#dui-busqueda {
+    flex: 1;
+    border: none;
+    border-bottom: 2px solid #a8a8a8;
+    background: transparent;
+    padding: 7px 6px;
+    font-size: 15px;
+    outline: none;
+    transition: border-bottom-color 0.3s;
+}
+
+#dui-busqueda:focus {
+    border-bottom-color: #0072bc;
+}
+
+/* Diseño formal para el botón de buscar */
+#btn-buscar-cliente {
+    background: #0072bc;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    padding: 5px 12px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.2s, transform 0.1s;
+    height: 36px; /* Asegura simetría visual con la línea del input */
+}
+
+#btn-buscar-cliente:hover {
+    background: #005a96;
+}
+
+#btn-buscar-cliente:active {
+    transform: scale(0.97);
+}
+
+/* ==========================================================================
+   Formulario / Cuadrícula de Datos
+   ========================================================================== */
 .paciente-section {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 32px 45px;
+    gap: 24px 40px; /* Espaciado interno más sutil y elegante */
 }
 
 .field-group {
     display: flex;
     flex-direction: column;
-    gap: 6px;
+    gap: 5px;
 }
 
 .field-group label {
-    font-size: 15px;
-    font-weight: 700;
+    font-size: 14px;
+    font-weight: 600;
     color: #4b5563;
 }
 
@@ -33,9 +96,17 @@
     border: none;
     border-bottom: 2px solid #a8a8a8;
     background: transparent;
-    padding: 7px 6px;
-    font-size: 16px;
+    padding: 6px 4px;
+    font-size: 15px;
     outline: none;
+    color: #374151;
+}
+
+/* Estilo para los inputs cuando estén bloqueados (Readonly) */
+.field-group input[readonly] {
+    color: #6b7280;
+    border-bottom-style: dashed;
+    background-color: rgba(243, 244, 246, 0.3);
 }
 
 .field-group input:focus,
@@ -43,27 +114,55 @@
     border-bottom-color: #0072bc;
 }
 
+.help-text {
+    font-size: 12px;
+    color: #6b7280;
+    margin-top: 4px;
+    line-height: 1.4;
+}
+
+/* ==========================================================================
+   Botonera Inferior: Solución al desnivel de Guardar/Cancelar
+   ========================================================================== */
 .form-buttons {
     display: flex;
     justify-content: space-between;
-    margin-top: 40px;
+    align-items: center; /* Alineación vertical perfecta */
+    margin-top: 35px;
     width: 100%;
 }
 
-.form-buttons button {
-    width: 110px;
-    height: 46px;
+.form-buttons a {
+    text-decoration: none;
+    display: inline-flex; /* Evita que el contenedor 'a' desfase al botón Cancelar */
+}
+
+.form-buttons button, 
+.form-buttons .btn-guardar {
+    width: 115px;
+    height: 42px; /* Misma altura idéntica para ambos */
     background: #00689d;
     color: white;
     border: none;
-    border-radius: 8px;
-    padding: 12px 0;
-    font-size: 15px;
-    font-weight: 500;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
     cursor: pointer;
-    transition: 0.3s;
+    transition: background 0.2s, transform 0.1s;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.form-buttons button:hover,
+.form-buttons .btn-guardar:hover {
+    background: #00527c;
 }
 
 #btn-cancelar {
     background: #6b7280;
+}
+
+#btn-cancelar:hover {
+    background: #4b5563;
 }

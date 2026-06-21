@@ -29,7 +29,6 @@ def get_datos_clinica(request, orden):
         return clinica
 
 #Función para generar el buffer
-@grupos_requeridos('Laboratoristas', 'Recepcionistas', 'Pacientes')
 def generar_reporte_completo_pdf(request,orden):
     buffer = io.BytesIO()
     
