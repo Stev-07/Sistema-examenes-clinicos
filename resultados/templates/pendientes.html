@@ -26,6 +26,8 @@
                 <input
                     type="text"
                     name="buscar"
+                    id="buscar-dui"
+                    name="buscar"
                     placeholder="Buscar por DUI"
                     value="{{ request.GET.buscar }}"
                 >
@@ -88,5 +90,8 @@
         </div>
 
     </div>
+    
+    <script src="{% static 'resultados/resultados_completados.js' %}"></script>
+
 
     {% endblock %}

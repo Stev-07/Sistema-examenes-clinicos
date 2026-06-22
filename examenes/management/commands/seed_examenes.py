@@ -10,7 +10,7 @@ class Command(BaseCommand):
         self.stdout.write("Creando exámenes...")
 
         # =========================
-        # 🧪 EXÁMENES GENERALES
+        # EXÁMENES GENERALES
         # =========================
 
         hemograma = TipoExamen.objects.create(
@@ -126,7 +126,7 @@ class Command(BaseCommand):
         ])
 
         # =========================
-        # 🧬 EXÁMENES ESPECIALES
+        # EXÁMENES ESPECIALES
         # =========================
 
         tsh = TipoExamen.objects.create(

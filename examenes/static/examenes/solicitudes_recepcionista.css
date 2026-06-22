@@ -64,12 +64,14 @@
 .tabla-contenedor {
     background: white;
     border-radius: 8px;
-    overflow: hidden;
+    overflow: auto;
     box-shadow: 0 2px 8px rgba(0,0,0,.06);
 }
 
 .tabla-pendientes {
     width: 100%;
+    min-width: 1300px;
+    table-layout: fixed;
     border-collapse: collapse;
     font-size: 13px;
 }
@@ -171,4 +173,44 @@
     border-radius: 16px;
     font-size: 12px;
     font-weight: 600;
+}
+
+.tabla-pendientes th:nth-child(1),
+.tabla-pendientes td:nth-child(1) {
+    width: 90px; /* DUI */
+}
+
+.tabla-pendientes th:nth-child(2),
+.tabla-pendientes td:nth-child(2) {
+    width: 260px; /* Paciente */
+}
+
+.tabla-pendientes th:nth-child(3),
+.tabla-pendientes td:nth-child(3) {
+    width: 140px; /* Expediente */
+}
+
+.tabla-pendientes th:nth-child(4),
+.tabla-pendientes td:nth-child(4) {
+    width: 180px; /* Fecha */
+}
+
+.tabla-pendientes th:nth-child(5),
+.tabla-pendientes td:nth-child(5) {
+    width: 180px; /* Examen */
+}
+
+.tabla-pendientes th:nth-child(6),
+.tabla-pendientes td:nth-child(6) {
+    width: 130px; /* Estado */
+}
+
+.tabla-pendientes th:nth-child(7),
+.tabla-pendientes td:nth-child(7) {
+    width: 180px; /* Acciones */
+}
+
+.tabla-pendientes td,
+.tabla-pendientes th {
+    white-space: nowrap;
 }

@@ -6,6 +6,42 @@ let nombrePaciente = '';
 let duiPaciente = '';
 let examenesAgregados = [];
 
+//VALIDACIÓN DE CAMPOS DE ENTRADA
+//Solo permitir letras en el campo del doctor
+const nombreDoctor = document.getElementById("nombre-doctor");
+
+if (nombreDoctor) {
+    nombreDoctor.addEventListener("input", function () {
+        this.value = this.value.replace(
+            /[^a-zA-ZáéíóúÁÉÍÓÚñÑ\s]/g,
+            ""
+        );
+    });
+}
+
+console.log(nombreDoctor);
+
+//Solo permitir numeros en el campo del JVPM
+const jvpmInput = document.getElementById("jvpm");
+
+if (jvpmInput) {
+    jvpmInput.addEventListener("input", function () {
+        this.value = this.value
+            .replace(/\D/g, "")
+            .slice(0, 8);
+    });
+}
+
+//Solo permitir numeros en el campo del DUI
+const duiInput = document.getElementById("dui-input");
+
+if (duiInput) {
+    duiInput.addEventListener("input", function () {
+        this.value = this.value
+            .replace(/\D/g, "")
+            .slice(0, 9);
+    });
+}
 // CSRF TOKEN
 const csrfToken = document
     .querySelector('meta[name="csrf-token"]')

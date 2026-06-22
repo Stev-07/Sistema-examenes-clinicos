@@ -1,5 +1,6 @@
 from django import forms
 from .models import Cliente
+from datetime import date
 from django.contrib.auth import get_user_model
 from django.contrib.auth.forms import UserCreationForm
 Usuario = get_user_model()
@@ -27,7 +28,7 @@ class ClienteForm(forms.ModelForm):
                 'placeholder': 'Ingresar el número de DUI sin guiones'
             }),
             'fecha_nacimiento': forms.DateInput(attrs={
-                'class': 'form-control', 'type': 'date'
+                'class': 'form-control', 'type': 'date', 'max': date.today().isoformat()
             }),
             'correo_electronico': forms.EmailInput(attrs={
                 'class': 'form-control',

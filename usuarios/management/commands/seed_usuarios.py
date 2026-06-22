@@ -43,15 +43,7 @@ class Command(BaseCommand):
         self.stdout.write("Creando usuarios...")
 
         usuarios_a_crear = [
-            {
-                'username': 'laboratorista1',
-                'password': 'lab12345',
-                'first_name': 'Juan',
-                'last_name': 'Pérez',
-                'rol': rol_lab,
-                'sucursal': sucursal_general,
-                'grupo': grupo_lab,
-            },
+            
             {
                 'username': 'laboratorista2',
                 'password': 'lab12345',
@@ -61,33 +53,7 @@ class Command(BaseCommand):
                 'sucursal': sucursal_especial,
                 'grupo': grupo_lab,
             },
-            {
-                'username': 'recepcionista1',
-                'password': 'rec12345',
-                'first_name': 'Maria',
-                'last_name': 'González',
-                'rol': rol_rec,
-                'sucursal': sucursal_general,
-                'grupo': grupo_rec,
-            },
-            {
-                'username': 'recepcionista2',
-                'password': 'rec12345',
-                'first_name': 'Lucía',
-                'last_name': 'Ramírez',
-                'rol': rol_rec,
-                'sucursal': sucursal_especial,
-                'grupo': grupo_rec,
-            },
-            {
-                'username': 'almacenista1',
-                'password': 'inv12345',
-                'first_name': 'Carlos',
-                'last_name': 'López',
-                'rol': rol_inv,
-                'sucursal': sucursal_general,
-                'grupo': grupo_inv,
-            },
+            
             {
                 'username': 'almacenista2',
                 'password': 'inv12345',

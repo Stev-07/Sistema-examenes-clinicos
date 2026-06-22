@@ -1,88 +1,100 @@
-    {% extends 'base.html' %}
-    {% load static %}
+{% extends 'base.html' %}
+{% load static %}
 
-    {% block title %}
-    Solicitudes pendientes
-    {% endblock %}
+{% block title %}
+Solicitudes pendientes
+{% endblock %}
 
-    {% block head %}
-    <link rel="stylesheet"
-        href="{% static 'resultados/css/capturar_resultado.css' %}">
-    {% endblock %}
+{% block head %}
+<link rel="stylesheet"
+    href="{% static 'resultados/css/capturar_resultado.css' %}">
+{% endblock %}
 
-    {% block content %}
+{% block content %}
 
-        <div class="contenedor-principal">
+    <div class="contenedor-principal">
 
-            <div class="encabezado">
-                <h1>Examenes realizados </h1>
-                <p>Resultado de las ordes de examenes</p>
-            </div>
-
-            <div class="busqueda-contenedor">
-
-            <form method="GET">
-
-                <input
-                    type="text"
-                    name="buscar"
-                    placeholder="Buscar por DUI"
-                    value="{{ request.GET.buscar }}"
-                >
-
-                <button type="submit">
-                    Buscar
-                </button>
-
-            </form>
-
+        <div class="encabezado">
+            <h1>Examenes realizados </h1>
+            <p>Resultado de las ordes de examenes</p>
         </div>
 
-        <div class="tabla-contenedor">
+        <div class="busqueda-contenedor">
 
-            <table class="tabla-pendientes">
+        <form method="GET">
 
-            <thead>
-                <tr>
-                    <th>DUI</th>
-                    <th>Paciente</th>
-                    <th>Expediente</th>
-                    <th>Fecha emisión</th>
-                    <th>Examen</th>
-                    <th>Acciones</th>
-                </tr>
-            </thead>
+            <input
+                type="text"
+                name="buscar"
+                id="buscar-dui"
+                name="buscar"
+                placeholder="Buscar por DUI"
+                value="{{ request.GET.buscar }}"
+            >
 
-            <tbody>
-            {% for grupo in ordenes %}
-                {% for examen in grupo.examenes %}
-                <tr>
-                    {% if forloop.first %}
-                        <td rowspan="{{ grupo.examenes|length }}">{{ grupo.orden.expediente.cliente.n_dui }}</td>
-                        <td rowspan="{{ grupo.examenes|length }}">
-                            {{ grupo.orden.expediente.cliente.usuario.first_name }}
-                            {{ grupo.orden.expediente.cliente.usuario.last_name }}
-                        </td>
-                        <td rowspan="{{ grupo.examenes|length }}">{{ grupo.orden.expediente.numero_expediente }}</td>
-                        <td rowspan="{{ grupo.examenes|length }}">{{ grupo.orden.fechaEmision }}</td>
-                    {% endif %}
-                    <td>{{ examen.tipo_examen.nombre }}</td>
-                    <td>
-                            <span class="badge-completado">✅ Resultado registrado</span>
-                    </td>
-                </tr>
-                {% endfor %}
-            {% empty %}
-                <tr>
-                    <td colspan="6">No existen solicitudes pendientes.</td>
-                </tr>
-            {% endfor %}
-            </tbody>
+            <button type="submit">
+                Buscar
+            </button>
 
-            </table>
-
-        </div>
+        </form>
 
     </div>
 
-    {% endblock %}
+    {% if messages %}
+        {% for message in messages %}
+            <div class="mensaje-error">
+                {{ message }}
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <div class="tabla-contenedor">
+
+        <table class="tabla-pendientes">
+
+        <thead>
+            <tr>
+                <th>DUI</th>
+                <th>Paciente</th>
+                <th>Expediente</th>
+                <th>Fecha emisión</th>
+                <th>Examen</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+
+        <tbody>
+        {% for grupo in ordenes %}
+            {% for examen in grupo.examenes %}
+            <tr>
+                {% if forloop.first %}
+                    <td rowspan="{{ grupo.examenes|length }}">{{ grupo.orden.expediente.cliente.n_dui }}</td>
+                    <td rowspan="{{ grupo.examenes|length }}">
+                        {{ grupo.orden.expediente.cliente.usuario.first_name }}
+                        {{ grupo.orden.expediente.cliente.usuario.last_name }}
+                    </td>
+                    <td rowspan="{{ grupo.examenes|length }}">{{ grupo.orden.expediente.numero_expediente }}</td>
+                    <td rowspan="{{ grupo.examenes|length }}">{{ grupo.orden.fechaEmision }}</td>
+                {% endif %}
+                <td>{{ examen.tipo_examen.nombre }}</td>
+                <td>
+                        <span class="badge-completado">✅ Resultado registrado</span>
+                </td>
+            </tr>
+            {% endfor %}
+        {% empty %}
+            <tr>
+                <td colspan="6">No existen solicitudes pendientes.</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+<script src="{% static 'resultados/resultados_completados.js' %}"></script>
+
+{% endblock %}

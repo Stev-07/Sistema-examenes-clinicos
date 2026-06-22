@@ -166,3 +166,21 @@
 #btn-cancelar:hover {
     background: #4b5563;
 }
+
+#buscar-dui {
+    flex: 1;
+    border: none;
+    border-bottom: 2px solid #a8a8a8;
+    padding: 8px 5px;
+    font-size: 14px;
+    outline: none;
+    background: transparent;
+}
+
+#buscar-dui:focus {
+    border-bottom-color: #0072bc;
+}
+
+.esconder-por-css {
+    display: none !important;
+}

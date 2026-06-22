@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.http import HttpResponseForbidden
 from django.contrib import messages
 from django.utils import timezone
+import re
 from django.core.mail import EmailMessage
 from examenes.models import ExamenRealizado, ParametroDefinicion, Resultado
 from reportesPDF.views import generar_reporte_completo_pdf
@@ -18,18 +19,29 @@ def solicitudes_pendientes(request):
     
     buscar = request.GET.get('buscar', '')
 
+    if buscar and not re.fullmatch(r'\d{9}', buscar):
+        messages.error(
+            request,
+            'El DUI debe contener exactamente 9 dígitos numéricos.'
+        )
+
+        return render(request, 'pendientes.html', {
+            'ordenes': []
+        })
+
     examenes = (
         ExamenRealizado.objects
         .filter( orden__expediente__cliente__n_dui__icontains=buscar, 
                 estado='pendiente',
                 orden__sucursal=request.user.sucursal)
+        .exclude(estado='entregado')
         .select_related(
             'orden',
             'orden__expediente',
             'orden__expediente__cliente__usuario',
             'tipo_examen'
         )
-        .order_by('orden__fechaEmision')
+        .order_by('fechaRealizado')
     )
 
     # Agrupar por orden
@@ -165,11 +177,22 @@ def resultados_completados(request):
 
     buscar = request.GET.get('buscar', '')
 
+    if buscar and not re.fullmatch(r'\d{9}', buscar):
+        messages.error(
+            request,
+            'El DUI debe contener exactamente 9 dígitos numéricos.'
+        )
+
+        return render(request, 'pendientes.html', {
+            'ordenes': []
+        })
+
     examenes = (
         ExamenRealizado.objects
         .filter(
             orden__expediente__cliente__n_dui__icontains=buscar,
-            estado='completado'
+            estado='completado',
+            orden__sucursal=request.user.sucursal
         )
         .select_related(
             'orden',

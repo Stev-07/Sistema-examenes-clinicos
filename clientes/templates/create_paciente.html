@@ -13,9 +13,8 @@
 
     <div class="busqueda-cliente">
 
-        <label>Buscar cliente por DUI:</label>
 
-        <input type="text" id="dui-busqueda" placeholder="Ej. 123456789">
+        <input type="text" id="buscar-dui" name="buscar" placeholder="Ej. 123456789" maxlength="9">
 
         <button type="button" id="btn-buscar-cliente">Buscar</button>
 
@@ -76,7 +75,7 @@
 
         <div class="form-buttons">
             <button type="submit" class="btn-guardar">Guardar</button>   
-            <a href="{% url 'usuarios:recepcion-dashboard' %}">
+            <a href="{% url cancel_url %}">
                 <button type="button" id="btn-cancelar">Cancelar</button>
             </a>
         </div>
@@ -85,6 +84,8 @@
 
 </div>
 
+
+<script src="{% static 'resultados/resultados_completados.js' %}"></script>
 <script src="{% static 'clientes/paciente.js' %}"></script>
 
 {% endblock %}

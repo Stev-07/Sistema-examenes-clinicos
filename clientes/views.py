@@ -11,8 +11,11 @@ from django.http import HttpResponseForbidden, JsonResponse
 
 @login_required
 def buscar_cliente_existente(request):
-    if not request.user.groups.filter(name='Recepcionistas').exists():
-        return HttpResponseForbidden("No tenés permiso para acceder a esta página.")
+    if not (request.user.rol and request.user.rol.nombre == 'REC'):
+        return JsonResponse({
+            'encontrado': False, 
+            'error': 'No tenés permiso para realizar esta búsqueda.'
+        }, status=403)
     
     dui = request.GET.get('dui', '')
     try:
@@ -36,6 +39,16 @@ def create_paciente_expediente(request):
     cliente_id = request.POST.get('cliente_id') or request.GET.get('cliente_id')
     es_edicion = bool(cliente_id)
 
+    
+    # Evaluamos paso a paso para evitar caídas del sistema (AttributeError)
+    es_recepcionista = False
+    if request.user.is_authenticated and hasattr(request.user, 'rol') and request.user.rol:
+        if request.user.rol.nombre == 'REC':
+            es_recepcionista = True
+
+    # URL dinámica para el botón cancelar
+    cancel_url = 'usuarios:recepcion-dashboard' if es_recepcionista else 'usuarios:login'
+
     if request.method == 'POST':
         if es_edicion:
             cliente = get_object_or_404(Cliente, id=cliente_id)
@@ -47,36 +60,56 @@ def create_paciente_expediente(request):
                 cliente.correo_electronico = nuevo_correo
                 cliente.save()
 
-            # Actualizar contraseña solo si se escribió una nueva
+            # Actualizar contraseña si se escribió una nueva
             nueva_password = request.POST.get('password1')
             if nueva_password:
                 usuario.set_password(nueva_password)
                 usuario.save()
 
-            messages.success(request, f"Datos de {usuario.first_name} {usuario.last_name} actualizados correctamente.")
-            if request.user.groups.filter(name='Recepcionistas').exists():
-                return redirect('usuarios:recepcion-dashboard')
-            return redirect('usuarios:login')
+            messages.success(
+                request,
+                f"Datos de {usuario.first_name} {usuario.last_name} actualizados correctamente."
+            )
+            return redirect(cancel_url)
 
         else:
             form = ClienteForm(request.POST)
             form_user = UsuarioDatosForm(request.POST)
-            if form.is_valid() and form_user.is_valid():
-                Nuevopaciente = create_expediente_service(form, form_user)
-                request.session['expediente_numero'] = Nuevopaciente['expediente'].numero_expediente
-                messages.success(request, f"Se ha creado con éxito el expediente para {Nuevopaciente['usuario'].first_name} {Nuevopaciente['usuario'].last_name} con número de expediente {Nuevopaciente['expediente'].numero_expediente}.")
-                if request.user.groups.filter(name='Recepcionistas').exists():
-                    return redirect('usuarios:recepcion-dashboard')
-                return redirect('usuarios:login')
 
-            messages.error(request, "Error al crear el expediente. Por favor, revise los datos ingresados.")
-            return render(request, 'create_paciente.html', {'form': form, 'form_user': form_user})
+            if form.is_valid() and form_user.is_valid():
+                nuevo_paciente = create_expediente_service(form, form_user)
+                request.session['expediente_numero'] = nuevo_paciente['expediente'].numero_expediente
+
+                messages.success(
+                    request,
+                    f"Se ha creado con éxito el expediente para "
+                    f"{nuevo_paciente['usuario'].first_name} {nuevo_paciente['usuario'].last_name} "
+                    f"con número de expediente {nuevo_paciente['expediente'].numero_expediente}."
+                )
+                return redirect(cancel_url)
+
+            messages.error(
+                request,
+                "Error al crear el expediente. Por favor, revise los datos ingresados."
+            )
+            return render(request, 'create_paciente.html', {
+                'form': form,
+                'form_user': form_user,
+                'mostrar_busqueda': es_recepcionista,  # Usamos la variable unificada
+                'cancel_url': cancel_url
+            })
 
     else:
+        # Método GET
         form = ClienteForm()
         form_user = UsuarioDatosForm()
-        return render(request, 'create_paciente.html', {'form': form, 'form_user': form_user})
 
+        return render(request, 'create_paciente.html', {
+            'form': form,
+            'form_user': form_user,
+            'mostrar_busqueda': es_recepcionista,  # Usamos la variable unificada
+            'cancel_url': cancel_url
+        })
 
 @login_required
 def dashboard_paciente(request):

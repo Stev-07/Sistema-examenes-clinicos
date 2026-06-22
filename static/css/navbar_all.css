@@ -77,6 +77,11 @@ LOGO
     padding: 0;
     margin: 0;
     overflow: hidden;
+    transition: all 0.3s ease;
+}
+
+.sidebar.collapsed .sidebar-logo {
+    opacity: 0;
 }
 
 .sidebar-logo img {
@@ -84,6 +89,7 @@ LOGO
     height: 100%;
     object-fit: cover;
     display: block;
+    transition: opacity 0.3s ease;
 }
 
 /* ==========================
